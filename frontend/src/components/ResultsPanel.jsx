@@ -1,5 +1,6 @@
 import ConfidenceChart from './ConfidenceChart';
 import DietPlan from './DietPlan';
+import NearbyDoctors from './NearbyDoctors';
 
 function ResultsPanel({ results, loading }) {
   if (loading) {
@@ -94,8 +95,14 @@ function ResultsPanel({ results, loading }) {
         deficiency={results.deficiency}
         allDietPlans={results.all_diet_plans}
       />
+
+      <div className="results-divider"></div>
+
+      {/* Nearby Doctors & Hospitals Map */}
+      <NearbyDoctors deficiency={results.deficiency} />
     </div>
   );
 }
 
 export default ResultsPanel;
+
