@@ -14,6 +14,14 @@ class DietDay(BaseModel):
     foods: list[str]
 
 
+class DeficiencyDietPlan(BaseModel):
+    """Diet plan for a single deficiency."""
+    deficiency: str
+    confidence: float
+    weekly_plan: list[DietDay]
+    food_recommendations: list[str]
+
+
 class AnalysisResponse(BaseModel):
     """Full analysis result returned by /api/analyze."""
     body_part: str
@@ -23,6 +31,7 @@ class AnalysisResponse(BaseModel):
     prediction_scores: list[PredictionScore]
     weekly_diet_plan: list[DietDay]
     food_recommendations: list[str]
+    all_diet_plans: list[DeficiencyDietPlan]
     model_available: bool  # Whether a real model was used or mock prediction
 
 

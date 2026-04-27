@@ -87,11 +87,12 @@ function ResultsPanel({ results, loading }) {
 
       <div className="results-divider"></div>
 
-      {/* Diet Plan */}
+      {/* Diet Plan — Tabbed for all deficiencies */}
       <DietPlan
         weeklyPlan={results.weekly_diet_plan}
         foodRecommendations={results.food_recommendations}
         deficiency={results.deficiency}
+        allDietPlans={results.all_diet_plans}
       />
     </div>
   );

@@ -50,8 +50,22 @@ async def analyze_image(
     # Predict deficiency and disease
     prediction = PredictorService.predict(image, body_part)
 
-    # Generate diet plan
+    # Generate diet plan for the top prediction
     diet_data = DietPlannerService.generate_weekly_plan(prediction["deficiency"])
+
+    # Generate diet plans for ALL deficiency classes in the prediction scores
+    all_diet_plans = []
+    for score in prediction["prediction_scores"]:
+        label = score["label"]
+        if label == "No Vitamin Deficiency":
+            continue
+        plan_data = DietPlannerService.generate_weekly_plan(label)
+        all_diet_plans.append({
+            "deficiency": label,
+            "confidence": score["confidence"],
+            "weekly_plan": plan_data["weekly_plan"],
+            "food_recommendations": plan_data["food_recommendations"],
+        })
 
     return AnalysisResponse(
         body_part=body_part,
@@ -61,6 +75,7 @@ async def analyze_image(
         prediction_scores=prediction["prediction_scores"],
         weekly_diet_plan=diet_data["weekly_plan"],
         food_recommendations=diet_data["food_recommendations"],
+        all_diet_plans=all_diet_plans,
         model_available=has_model,
     )
 
