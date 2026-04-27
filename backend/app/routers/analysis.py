@@ -44,9 +44,6 @@ async def analyze_image(
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Invalid image file: {str(e)}")
 
-    # Check if model is available
-    has_model = body_part in AVAILABLE_MODELS
-
     # Predict deficiency and disease
     prediction = PredictorService.predict(image, body_part)
 
@@ -76,7 +73,7 @@ async def analyze_image(
         weekly_diet_plan=diet_data["weekly_plan"],
         food_recommendations=diet_data["food_recommendations"],
         all_diet_plans=all_diet_plans,
-        model_available=has_model,
+        model_available=prediction["used_model"],
     )
 
 

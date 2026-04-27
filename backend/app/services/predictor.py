@@ -15,6 +15,7 @@ class PredictorService:
     def load_models(cls):
         """Load all available body-part-specific models."""
         import tensorflow as tf
+        import keras
 
         # Only load models that actually exist on disk
         model_map = {
@@ -26,7 +27,7 @@ class PredictorService:
         for part, filename in model_map.items():
             model_path = settings.MODELS_DIR / filename
             if model_path.exists():
-                cls._models[part] = tf.keras.models.load_model(str(model_path))
+                cls._models[part] = keras.models.load_model(str(model_path))
                 print(f"  ✅ {part} model loaded from {model_path}")
             else:
                 print(f"  ⚠️  {part} model not found at {model_path}")
@@ -34,7 +35,7 @@ class PredictorService:
         cls._loaded = len(cls._models) > 0
         
         # Log which models are missing
-        missing = {"Skin"} - set(cls._models.keys())
+        missing = set(model_map.keys()) - set(cls._models.keys())
         if missing:
             print(f"  ℹ️  Models not available for: {', '.join(missing)} (will use mock predictions)")
 
@@ -64,10 +65,12 @@ class PredictorService:
         if body_part in cls._models:
             prediction = cls._models[body_part].predict(img_array, verbose=0)
             prediction_values = prediction[0]
+            used_model = True
         else:
             # Mock prediction for body parts without models (Skin)
             num_classes = len(part_classes)
             prediction_values = np.random.dirichlet(np.ones(num_classes))
+            used_model = False
 
         # Trim to number of known classes
         num_classes = len(part_classes)
@@ -92,4 +95,5 @@ class PredictorService:
             "confidence": round(confidence, 2),
             "disease": disease,
             "prediction_scores": scores,
+            "used_model": used_model,
         }

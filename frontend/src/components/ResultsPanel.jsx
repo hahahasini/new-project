@@ -30,6 +30,12 @@ function ResultsPanel({ results, loading }) {
   return (
     <div className="results-card animate-fade-in" id="results-panel">
       <h2>🔍 Analysis Results</h2>
+      
+      {!results.model_available && (
+        <div className="selector-mock-notice animate-fade-in" style={{marginBottom: '20px', padding: '10px', backgroundColor: 'rgba(239, 68, 68, 0.1)', borderLeft: '4px solid #ef4444'}}>
+          ⚠️ <strong>Mock Prediction:</strong> The AI model could not be loaded. These results are simulated.
+        </div>
+      )}
 
       {/* Key Results */}
       <div className="result-items stagger-children">
