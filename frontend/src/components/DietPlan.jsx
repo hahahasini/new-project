@@ -17,7 +17,14 @@ function DietPlan({ weeklyPlan, foodRecommendations, deficiency, allDietPlans })
       text += '\n' + '='.repeat(50) + '\n\n';
       if (plan.weekly_plan) {
         plan.weekly_plan.forEach((day) => {
-          text += `${day.day}: ${day.foods.join(', ')}\n`;
+          text += `${day.day}:\n`;
+          if (day.meals) {
+            text += `  Breakfast: ${day.meals.breakfast.join(', ')}\n`;
+            text += `  Lunch: ${day.meals.lunch.join(', ')}\n`;
+            text += `  Dinner: ${day.meals.dinner.join(', ')}\n`;
+          } else if (day.foods) {
+            text += `  ${day.foods.join(', ')}\n`;
+          }
         });
       }
       if (plan.food_recommendations && plan.food_recommendations.length > 0) {
@@ -92,10 +99,27 @@ function DietPlan({ weeklyPlan, foodRecommendations, deficiency, allDietPlans })
             {activePlan.weekly_plan.map((day) => (
               <div key={day.day} className="diet-day">
                 <span className="diet-day-name">{day.day}</span>
-                <div className="diet-day-foods">
-                  {day.foods.map((food, i) => (
-                    <span key={i}>{food}</span>
-                  ))}
+                <div className="diet-day-foods" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  {day.meals ? (
+                    <>
+                      <div className="meal-section" style={{ fontSize: '0.9em' }}>
+                        <span style={{ fontWeight: 'bold', color: 'var(--text-color)' }}>☕ Breakfast: </span> 
+                        {day.meals.breakfast.join(', ')}
+                      </div>
+                      <div className="meal-section" style={{ fontSize: '0.9em' }}>
+                        <span style={{ fontWeight: 'bold', color: 'var(--text-color)' }}>🥗 Lunch: </span> 
+                        {day.meals.lunch.join(', ')}
+                      </div>
+                      <div className="meal-section" style={{ fontSize: '0.9em' }}>
+                        <span style={{ fontWeight: 'bold', color: 'var(--text-color)' }}>🍲 Dinner: </span> 
+                        {day.meals.dinner.join(', ')}
+                      </div>
+                    </>
+                  ) : (
+                    day.foods && day.foods.map((food, i) => (
+                      <span key={i}>{food}</span>
+                    ))
+                  )}
                 </div>
               </div>
             ))}

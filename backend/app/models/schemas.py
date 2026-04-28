@@ -8,10 +8,17 @@ class PredictionScore(BaseModel):
     confidence: float
 
 
+class Meals(BaseModel):
+    """Meals for a single day."""
+    breakfast: list[str]
+    lunch: list[str]
+    dinner: list[str]
+
+
 class DietDay(BaseModel):
     """A single day's diet recommendation."""
     day: str
-    foods: list[str]
+    meals: Meals
 
 
 class DeficiencyDietPlan(BaseModel):

@@ -55,18 +55,269 @@ DISEASES = {
 }
 
 FOOD_RECOMMENDATIONS = {
-    "Vitamin A Deficiency": ["Carrots", "Sweet Potatoes", "Spinach", "Liver"],
-    "Vitamin B Deficiency": ["Eggs", "Milk", "Whole Grains", "Legumes"],
-    "Iron Deficiency": ["Red Meat", "Leafy Greens", "Lentils", "Tofu"],
-    "Zinc Deficiency": ["Pumpkin Seeds", "Chickpeas", "Cashews", "Dairy Products"],
-    "Vitamin B3 Deficiency": ["Avocado", "Mushroom", "Green Peas", "Ginger"],
-    "Thyroid issues": ["Spinach", "Berries", "Broccoli", "Banana"],
-    "Vitamin D Deficiency": ["Sun Bath", "Mushrooms", "Cheese", "Berries"],
-    "Low serum vitamin levels": ["Eggs", "Chickpeas", "Whole Grains", "Tofu"],
-    "Iodine Deficiency": ["Leafy Greens", "Whole Grains", "Legume", "Cashew"],
-    "Vitamin C Deficiency": ["Citrus Fruits", "Strawberries", "Bell Peppers", "Broccoli"],
-    "Vitamin E Deficiency": ["Nuts", "Seeds", "Spinach", "Sunflower Oil"],
-    "Omega-3 Deficiency": ["Salmon", "Chia Seeds", "Walnuts", "Flaxseeds"],
-    "Vitamin B12 Deficiency": ["Clams", "Liver", "Fortified Cereals", "Dairy Products", "Eggs"],
-    "No Vitamin Deficiency": [],
+    "Vitamin A Deficiency": {
+        "breakfast": [
+            "Oatmeal with grated carrots and cinnamon", 
+            "Spinach and apple smoothie with chia seeds", 
+            "Sweet potato hash with bell peppers", 
+            "Rice porridge with baked pumpkin"
+        ],
+        "lunch": [
+            "Lentil and spinach stew", 
+            "Roasted sweet potato and black bean bowl", 
+            "Carrot and ginger soup with quinoa", 
+            "Kale and roasted butternut squash salad"
+        ],
+        "dinner": [
+            "Broccoli and carrot stir-fry with rice", 
+            "Baked sweet potato topped with black beans", 
+            "Spinach and chickpea curry", 
+            "Pumpkin and sage risotto (dairy-free)"
+        ]
+    },
+    "Vitamin B Deficiency": {
+        "breakfast": [
+            "Quinoa bowl with sliced bananas", 
+            "Oatmeal with sunflower seeds and berries", 
+            "Rice flakes with fortified plant milk", 
+            "Millet porridge with chopped apples"
+        ],
+        "lunch": [
+            "Black bean and corn salad", 
+            "Lentil soup with mixed vegetables", 
+            "Chickpea and spinach bowl", 
+            "Roasted root vegetables with quinoa"
+        ],
+        "dinner": [
+            "Brown rice with kidney bean curry", 
+            "Stir-fried vegetables with buckwheat noodles", 
+            "Lentil and mushroom shepherd's pie", 
+            "Baked potatoes with black beans"
+        ]
+    },
+    "Iron Deficiency": {
+        "breakfast": [
+            "Oatmeal with pumpkin seeds and raisins", 
+            "Green smoothie with spinach and apple", 
+            "Quinoa porridge with apricots", 
+            "Buckwheat pancakes (egg-free) with berries"
+        ],
+        "lunch": [
+            "Lentil and kale soup", 
+            "Spinach salad with chickpeas and citrus dressing", 
+            "White bean and tomato stew", 
+            "Quinoa and roasted beet salad"
+        ],
+        "dinner": [
+            "Lentil dahl with brown rice", 
+            "Sauteed spinach with black eyed peas", 
+            "Roasted Brussels sprouts with kidney beans", 
+            "Vegetable and lentil shepherd's pie"
+        ]
+    },
+    "Zinc Deficiency": {
+        "breakfast": [
+            "Oatmeal with pumpkin seeds", 
+            "Quinoa porridge with hemp seeds", 
+            "Chia seed pudding with berries", 
+            "Millet bowl with sunflower seeds"
+        ],
+        "lunch": [
+            "Chickpea and roasted vegetable salad", 
+            "Lentil and spinach soup", 
+            "Black bean bowl with avocado", 
+            "Quinoa and roasted pumpkin salad"
+        ],
+        "dinner": [
+            "Baked beans with baked potato", 
+            "Lentil stew with carrots and celery", 
+            "Stir-fried mixed beans with rice", 
+            "Roasted root vegetables with chickpeas"
+        ]
+    },
+    "Vitamin B3 Deficiency": {
+        "breakfast": [
+            "Oatmeal with sliced avocado", 
+            "Brown rice porridge with green peas", 
+            "Mushroom and spinach breakfast hash", 
+            "Quinoa bowl with sauteed mushrooms"
+        ],
+        "lunch": [
+            "Avocado and chickpea salad", 
+            "Green pea and mint soup", 
+            "Mushroom and lentil bowl", 
+            "Roasted vegetable salad with ginger dressing"
+        ],
+        "dinner": [
+            "Mushroom risotto (dairy-free)", 
+            "Green pea and potato curry", 
+            "Baked sweet potato with avocado and beans", 
+            "Stir-fried mushrooms and broccoli with rice"
+        ]
+    },
+    "Thyroid issues": {
+        "breakfast": [
+            "Oatmeal with mixed berries", 
+            "Banana and spinach smoothie", 
+            "Quinoa porridge with apple", 
+            "Chia pudding with strawberries"
+        ],
+        "lunch": [
+            "Broccoli and lentil soup", 
+            "Spinach and strawberry salad", 
+            "Roasted vegetable bowl with quinoa", 
+            "Chickpea and broccoli salad"
+        ],
+        "dinner": [
+            "Steamed broccoli with black beans", 
+            "Spinach and potato curry", 
+            "Baked root vegetables with lentils", 
+            "Brown rice with mixed vegetable stir-fry"
+        ]
+    },
+    "Vitamin D Deficiency": {
+        "breakfast": [
+            "Oatmeal with fortified plant milk", 
+            "Mushroom and potato hash", 
+            "Quinoa porridge with sliced bananas", 
+            "Chia pudding made with fortified juice"
+        ],
+        "lunch": [
+            "Mushroom and lentil soup", 
+            "Roasted vegetable salad", 
+            "Chickpea and spinach bowl", 
+            "White bean and mushroom stew"
+        ],
+        "dinner": [
+            "Sauteed mushrooms with brown rice", 
+            "Lentil and vegetable dahl", 
+            "Baked potato with roasted mushrooms", 
+            "Mushroom risotto (dairy-free)"
+        ]
+    },
+    "Low serum vitamin levels": {
+        "breakfast": [
+            "Oatmeal with mixed fruit", 
+            "Quinoa bowl with berries", 
+            "Green smoothie with spinach and apple", 
+            "Millet porridge with banana"
+        ],
+        "lunch": [
+            "Mixed bean salad with citrus dressing", 
+            "Lentil and vegetable soup", 
+            "Chickpea and roasted root vegetable bowl", 
+            "Quinoa and spinach salad"
+        ],
+        "dinner": [
+            "Brown rice with mixed bean curry", 
+            "Stir-fried vegetables with buckwheat noodles", 
+            "Lentil and mushroom stew", 
+            "Baked sweet potato with mixed beans"
+        ]
+    },
+    "Iodine Deficiency": {
+        "breakfast": [
+            "Oatmeal with apples and cinnamon", 
+            "Green smoothie with spinach", 
+            "Quinoa porridge with berries", 
+            "Rice flakes with banana"
+        ],
+        "lunch": [
+            "Seaweed and cucumber salad", 
+            "Lentil soup with leafy greens", 
+            "Roasted potato and bean bowl", 
+            "Quinoa salad with mixed vegetables"
+        ],
+        "dinner": [
+            "Brown rice with seaweed and vegetable stir-fry", 
+            "Baked potatoes with leafy greens", 
+            "Lentil and spinach curry", 
+            "Roasted root vegetables with beans"
+        ]
+    },
+    "Vitamin C Deficiency": {
+        "breakfast": [
+            "Oatmeal with strawberries", 
+            "Citrus fruit salad", 
+            "Green smoothie with orange juice", 
+            "Quinoa bowl with kiwi"
+        ],
+        "lunch": [
+            "Bell pepper and black bean salad", 
+            "Broccoli and lentil soup", 
+            "Citrus and spinach salad", 
+            "Roasted tomato and bean bowl"
+        ],
+        "dinner": [
+            "Stir-fried bell peppers and broccoli with rice", 
+            "Tomato and lentil stew", 
+            "Roasted Brussels sprouts with potatoes", 
+            "Sweet potato and bell pepper curry"
+        ]
+    },
+    "Vitamin E Deficiency": {
+        "breakfast": [
+            "Oatmeal with sunflower seeds", 
+            "Green smoothie with spinach", 
+            "Quinoa porridge with pumpkin seeds", 
+            "Chia pudding with berries"
+        ],
+        "lunch": [
+            "Spinach and avocado salad", 
+            "Lentil soup with mixed greens", 
+            "Roasted vegetable bowl", 
+            "Chickpea salad with olive oil dressing"
+        ],
+        "dinner": [
+            "Sauteed spinach with brown rice", 
+            "Baked sweet potato with sunflower seeds", 
+            "Lentil and vegetable dahl", 
+            "Roasted root vegetables with olive oil"
+        ]
+    },
+    "Omega-3 Deficiency": {
+        "breakfast": [
+            "Oatmeal with chia seeds", 
+            "Flaxseed pudding with berries", 
+            "Quinoa bowl with hemp seeds", 
+            "Green smoothie with flaxseed oil"
+        ],
+        "lunch": [
+            "Spinach salad with chia seeds", 
+            "Lentil soup", 
+            "Roasted vegetable bowl with hemp seeds", 
+            "White bean and kale stew"
+        ],
+        "dinner": [
+            "Brown rice with mixed bean curry", 
+            "Baked sweet potato with flaxseeds", 
+            "Lentil and vegetable stew", 
+            "Stir-fried greens with rice"
+        ]
+    },
+    "Vitamin B12 Deficiency": {
+        "breakfast": [
+            "Fortified oat cereal with plant milk", 
+            "Smoothie with fortified juice", 
+            "Quinoa porridge", 
+            "Rice flakes with fruit"
+        ],
+        "lunch": [
+            "Nutritional yeast and lentil soup", 
+            "Black bean and corn salad", 
+            "Chickpea bowl with roasted vegetables", 
+            "Quinoa and spinach salad"
+        ],
+        "dinner": [
+            "Brown rice with nutritional yeast sprinkled over beans", 
+            "Lentil and mushroom stew", 
+            "Baked potato with beans", 
+            "Vegetable stir-fry with rice"
+        ]
+    },
+    "No Vitamin Deficiency": {
+        "breakfast": ["Balanced oatmeal with fruit"],
+        "lunch": ["Mixed vegetable and bean salad"],
+        "dinner": ["Balanced vegetable and rice bowl"]
+    }
 }
