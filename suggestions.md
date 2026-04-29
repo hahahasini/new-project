@@ -1,4 +1,4 @@
-# 🔬 Future Enhancements — Vitamin Deficiency Detection System
+# 🔬 Future Enhancements -Vitamin Deficiency Detection System
 
 This document outlines proposed future enhancements that remain within the scope of **vitamin deficiency detection** and closely related nutritional health analysis.
 
@@ -9,7 +9,7 @@ This document outlines proposed future enhancements that remain within the scope
 ### 1.1 Multi-Deficiency Detection
 - **Current limitation**: The system predicts a single deficiency per image.
 - **Enhancement**: Implement multi-label classification so a single image can flag multiple simultaneous deficiencies (e.g., both Vitamin D and Iron deficiency from a tongue image).
-- **Impact**: More clinically accurate — real patients often have overlapping deficiencies.
+- **Impact**: More clinically accurate -real patients often have overlapping deficiencies.
 
 ### 1.2 Severity Scoring System
 - **Proposal**: Instead of binary "deficient or not," provide a severity scale (Mild / Moderate / Severe) based on confidence scores and visual feature intensity.
@@ -57,14 +57,14 @@ This document outlines proposed future enhancements that remain within the scope
 
 ### 3.2 Supplement Recommendations
 - **Feature**: Alongside food suggestions, recommend specific supplements with dosage guidelines based on severity.
-- **Disclaimer**: Include clear medical disclaimer — "Consult a healthcare professional before starting supplements."
+- **Disclaimer**: Include clear medical disclaimer -"Consult a healthcare professional before starting supplements."
 
 ### 3.3 Recipe Suggestions
 - **Feature**: Instead of just listing foods, provide full recipes rich in the deficient nutrient.
 - **Data source**: Integrate with a recipe API (Spoonacular, Edamam) filtered by nutrient content.
 
 ### 3.4 Nutrient Interaction Warnings
-- **Feature**: Warn users about nutrient interactions (e.g., "Iron absorption is inhibited by Calcium — avoid taking together").
+- **Feature**: Warn users about nutrient interactions (e.g., "Iron absorption is inhibited by Calcium -avoid taking together").
 - **Value**: Prevents counterproductive dietary choices.
 
 ---
@@ -144,7 +144,7 @@ This document outlines proposed future enhancements that remain within the scope
 - **Standard**: Align with HIPAA (US), GDPR (EU), or relevant local health data regulations.
 
 ### 7.3 Model Confidence Thresholds
-- **Feature**: If the model confidence is below a threshold (e.g., 60%), display a warning: "Results may not be reliable — consider consulting a doctor."
+- **Feature**: If the model confidence is below a threshold (e.g., 60%), display a warning: "Results may not be reliable -consider consulting a doctor."
 - **Benefit**: Prevents overreliance on low-confidence predictions.
 
 ---

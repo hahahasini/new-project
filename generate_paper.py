@@ -169,7 +169,7 @@ add_affiliation(doc, "Email: author1@gmail.com, author2@gmail.com, author3@gmail
 add_abstract_block(
     doc,
     "This paper presents VitaDetect, an AI-powered system for the automated detection of vitamin "
-    "deficiencies from images of human body parts — specifically nails, tongue, and skin. The system "
+    "deficiencies from images of human body parts -specifically nails, tongue, and skin. The system "
     "employs Convolutional Neural Networks (CNNs) trained on curated dermatological image datasets to "
     "classify visual symptoms into specific vitamin deficiency categories. Three independent deep "
     "learning models are developed: a Nail model capable of identifying Iodine Deficiency and Vitamin D "
@@ -192,8 +192,8 @@ add_body_text(doc,
     "Vitamin deficiencies affect billions of people worldwide and are a leading cause of preventable "
     "diseases, particularly in developing nations. Traditional diagnosis methods require clinical "
     "blood tests, which can be expensive, time-consuming, and inaccessible in remote areas. However, "
-    "many vitamin deficiencies manifest visible physical symptoms on the human body — discoloration "
-    "and deformation of nails, changes in tongue appearance, and various skin conditions — that can "
+    "many vitamin deficiencies manifest visible physical symptoms on the human body -discoloration "
+    "and deformation of nails, changes in tongue appearance, and various skin conditions -that can "
     "be captured and analyzed through images."
 )
 add_body_text(doc,
@@ -248,7 +248,7 @@ add_body_text(doc,
 add_body_text(doc,
     "The user interacts with the React frontend to upload an image and select a body part. The image "
     "is sent via an HTTP POST request to the FastAPI backend's /api/analyze endpoint. The backend "
-    "preprocesses the image — resizing it to 224×224 pixels, normalizing pixel values to [0,1] — and "
+    "preprocesses the image -resizing it to 224×224 pixels, normalizing pixel values to [0,1] -and "
     "passes it to the appropriate CNN model based on the selected body part. The model returns class "
     "probabilities, from which the system determines the predicted deficiency, the associated disease "
     "correlation, and per-class confidence scores. A diet planner service then generates a personalized "
@@ -257,12 +257,12 @@ add_body_text(doc,
 
 # System architecture figure
 add_figure(doc, os.path.join(IMAGES_DIR, "uml 1.png"),
-           "Fig 1: System Architecture — Component Interaction Diagram", Inches(5.2))
+           "Fig 1: System Architecture -Component Interaction Diagram", Inches(5.2))
 
 add_body_text(doc,
     "The system provides the following capabilities:"
 )
-add_bullet(doc, "Nail Analysis: Classifies nail images into three categories — No Vitamin Deficiency, Iodine Deficiency, and Vitamin D Deficiency — correlating to conditions such as bluish nails and alopecia areata.")
+add_bullet(doc, "Nail Analysis: Classifies nail images into three categories -No Vitamin Deficiency, Iodine Deficiency, and Vitamin D Deficiency -correlating to conditions such as bluish nails and alopecia areata.")
 add_bullet(doc, "Tongue Analysis: Classifies tongue images into Vitamin B12 Deficiency and Iron Deficiency, correlating to diabetes indicators and pale tongue conditions.")
 add_bullet(doc, "Skin Analysis: Classifies skin images into Vitamin D Deficiency and Vitamin A Deficiency, correlating to conditions such as acne and carcinoma.")
 add_bullet(doc, "Diet Recommendations: Generates a weekly diet plan with day-wise food suggestions and a summary of recommended foods based on the identified deficiency.")
@@ -461,7 +461,7 @@ add_body_text(doc,
 
 # Result screenshot - Homepage
 add_figure(doc, os.path.join(IMAGES_DIR, "Screenshot 2026-04-03 231933.png"),
-           "Fig 3: VitaDetect Home Page — Image Upload Interface", Inches(5.2))
+           "Fig 3: VitaDetect Home Page -Image Upload Interface", Inches(5.2))
 
 add_body_text(doc,
     "Figure 3 shows the landing page of the VitaDetect application. The interface presents a clean, "
@@ -471,7 +471,7 @@ add_body_text(doc,
 
 # Result screenshot - Analysis
 add_figure(doc, os.path.join(IMAGES_DIR, "Screenshot 2026-04-03 232158.png"),
-           "Fig 4: Skin Analysis Results — Disease Detection and Deficiency Identification", Inches(5.2))
+           "Fig 4: Skin Analysis Results -Disease Detection and Deficiency Identification", Inches(5.2))
 
 add_body_text(doc,
     "Figure 4 demonstrates the analysis results for a skin image. The system correctly identified "
@@ -482,7 +482,7 @@ add_body_text(doc,
 
 # Result screenshot - Confidence
 add_figure(doc, os.path.join(IMAGES_DIR, "Screenshot 2026-04-03 232331.png"),
-           "Fig 5: Confidence Breakdown — Per-Class Probability Distribution", Inches(3.5))
+           "Fig 5: Confidence Breakdown -Per-Class Probability Distribution", Inches(3.5))
 
 add_body_text(doc,
     "Figure 5 shows the confidence breakdown bar chart, providing a transparent view of the model's "
@@ -518,8 +518,8 @@ add_body_text(doc,
     "computer vision techniques for preliminary, non-invasive nutritional health screening."
 )
 add_body_text(doc,
-    "The decoupled architecture — with a FastAPI backend serving TensorFlow models and a React "
-    "frontend providing an interactive user interface — ensures maintainability, scalability, and "
+    "The decoupled architecture -with a FastAPI backend serving TensorFlow models and a React "
+    "frontend providing an interactive user interface -ensures maintainability, scalability, and "
     "independent evolution of the inference engine and the presentation layer. The inclusion of a "
     "personalized diet planning module adds immediate practical value by offering users actionable "
     "health recommendations alongside diagnostic information."
@@ -539,14 +539,14 @@ references = [
     'K. He, X. Zhang, S. Ren, and J. Sun, "Deep Residual Learning for Image Recognition," IEEE CVPR, 2016.',
     'M. Sandler et al., "MobileNetV2: Inverted Residuals and Linear Bottlenecks," IEEE CVPR, 2018.',
     'M. Tan and Q. V. Le, "EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks," ICML, 2019.',
-    'S. Ramírez, "FastAPI — Modern, fast web framework for building APIs with Python," 2019. Available: https://fastapi.tiangolo.com/',
-    'Meta Platforms, "React — A JavaScript library for building user interfaces," 2023. Available: https://react.dev/',
+    'S. Ramírez, "FastAPI -Modern, fast web framework for building APIs with Python," 2019. Available: https://fastapi.tiangolo.com/',
+    'Meta Platforms, "React -A JavaScript library for building user interfaces," 2023. Available: https://react.dev/',
     'M. Abadi et al., "TensorFlow: A System for Large-Scale Machine Learning," USENIX OSDI, 2016.',
     'F. Chollet, "Keras: The Python Deep Learning library," 2015. Available: https://keras.io/',
     'J. Deng et al., "ImageNet: A large-scale hierarchical image database," IEEE CVPR, 2009.',
     'G. Bradski, "The OpenCV Library," Dr. Dobb\'s Journal of Software Tools, 2000.',
     'A. Dosovitskiy et al., "An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale," ICLR, 2021.',
-    'World Health Organization, "Micronutrient deficiencies — Vitamin and Mineral Nutrition Information System," WHO, 2023.',
+    'World Health Organization, "Micronutrient deficiencies -Vitamin and Mineral Nutrition Information System," WHO, 2023.',
 ]
 
 for i, ref in enumerate(references):

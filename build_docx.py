@@ -299,7 +299,7 @@ def update_cover_page(doc):
                 para.runs[0].text = (
                     "This project presents a Vitamin Deficiency Detection System powered by "
                     "targeted Convolutional Neural Networks (CNNs). The system analyzes "
-                    "user-submitted images of specific body parts — Nails, Tongue, or Skin — "
+                    "user-submitted images of specific body parts -Nails, Tongue, or Skin -"
                     "to identify underlying vitamin and nutritional deficiencies. Users explicitly "
                     "select the body part category, which routes the image to the appropriate "
                     "specialized model, ensuring high accuracy while maintaining memory efficiency. "
@@ -401,7 +401,7 @@ def build_document():
     )
     # Add front page image as architecture illustration
     doc.add_paragraph()
-    add_image_to_doc(doc, IMAGE_MAP["front_page"], "Fig 1.1: System Frontend — Vitamin Deficiency Detection Application")
+    add_image_to_doc(doc, IMAGE_MAP["front_page"], "Fig 1.1: System Frontend -Vitamin Deficiency Detection Application")
 
     print("Adding Chapter 2: Literature Survey...")
     add_pg_break(doc)
@@ -461,7 +461,7 @@ def build_document():
         style="Body Text"
     )
     doc.add_paragraph()
-    add_image_to_doc(doc, IMAGE_MAP["use_case"], "Fig 4.1: Use Case Diagram — Vitamin Deficiency Detection System")
+    add_image_to_doc(doc, IMAGE_MAP["use_case"], "Fig 4.1: Use Case Diagram -Vitamin Deficiency Detection System")
 
     set_heading(doc, "4.4 Sequence Diagram", level=2)
     doc.add_paragraph(
@@ -471,7 +471,7 @@ def build_document():
         style="Body Text"
     )
     doc.add_paragraph()
-    add_image_to_doc(doc, IMAGE_MAP["sequence"], "Fig 4.2: Sequence Diagram — User to Backend ML Model Interaction")
+    add_image_to_doc(doc, IMAGE_MAP["sequence"], "Fig 4.2: Sequence Diagram -User to Backend ML Model Interaction")
 
     set_heading(doc, "4.5 State Chart Diagram", level=2)
     doc.add_paragraph(
@@ -480,7 +480,7 @@ def build_document():
         style="Body Text"
     )
     doc.add_paragraph()
-    add_image_to_doc(doc, IMAGE_MAP["state_chart"], "Fig 4.3: State Chart Diagram — Application State Transitions")
+    add_image_to_doc(doc, IMAGE_MAP["state_chart"], "Fig 4.3: State Chart Diagram -Application State Transitions")
 
     set_heading(doc, "4.6 Deployment Diagram", level=2)
     doc.add_paragraph(
@@ -489,7 +489,7 @@ def build_document():
         style="Body Text"
     )
     doc.add_paragraph()
-    add_image_to_doc(doc, IMAGE_MAP["deployment"], "Fig 4.4: Deployment Diagram — System Hosting Architecture")
+    add_image_to_doc(doc, IMAGE_MAP["deployment"], "Fig 4.4: Deployment Diagram -System Hosting Architecture")
 
     set_heading(doc, "4.7 Technologies Used", level=2)
     parse_and_add_md_content(doc, read_md(os.path.join(DOCS_DIR, "4_System_Design", "4.7_Technologies_Used.md")))
@@ -514,13 +514,13 @@ def build_document():
         style="Body Text"
     )
     doc.add_paragraph()
-    add_image_to_doc(doc, IMAGE_MAP["skin_detection"], "Fig 5.1: Skin Deficiency Detection — Analysis Interface")
+    add_image_to_doc(doc, IMAGE_MAP["skin_detection"], "Fig 5.1: Skin Deficiency Detection -Analysis Interface")
     doc.add_paragraph()
-    add_image_to_doc(doc, IMAGE_MAP["analysis_results"], "Fig 5.2: Analysis Results — Deficiency Detection Output")
+    add_image_to_doc(doc, IMAGE_MAP["analysis_results"], "Fig 5.2: Analysis Results -Deficiency Detection Output")
     doc.add_paragraph()
-    add_image_to_doc(doc, IMAGE_MAP["confidence_chart"], "Fig 5.3: Confidence Chart — Model Prediction Probabilities")
+    add_image_to_doc(doc, IMAGE_MAP["confidence_chart"], "Fig 5.3: Confidence Chart -Model Prediction Probabilities")
     doc.add_paragraph()
-    add_image_to_doc(doc, IMAGE_MAP["weekly_diet"], "Fig 5.4: Weekly Diet Plan — Nutritional Recommendation Output")
+    add_image_to_doc(doc, IMAGE_MAP["weekly_diet"], "Fig 5.4: Weekly Diet Plan -Nutritional Recommendation Output")
 
     print("Adding Chapter 6: Software Testing...")
     add_pg_break(doc)

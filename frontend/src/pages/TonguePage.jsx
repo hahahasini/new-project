@@ -8,10 +8,10 @@ const BODY_PART = 'Tongue';
 
 function TonguePage() {
   const [selectedImage, setSelectedImage] = useState(null);
-  const [previewUrl,    setPreviewUrl]    = useState(null);
-  const [results,       setResults]       = useState(null);
-  const [loading,       setLoading]       = useState(false);
-  const [error,         setError]         = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(null);
+  const [results, setResults] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleImageSelect = (file) => {
     setSelectedImage(file);
@@ -58,17 +58,11 @@ function TonguePage() {
               <p className="page-subtitle">Detects <strong>Vitamin B12</strong> &amp; <strong>Iron</strong> Deficiencies</p>
             </div>
           </div>
-          <div className="page-header-tags">
-            <span className="model-tag">Vitamin B12</span>
-            <span className="model-tag">Iron Deficiency</span>
-            <span className="model-tag">Glossitis</span>
-            <span className="model-tag">Anemia</span>
-          </div>
         </div>
 
         <div className="upload-tips glass animate-fade-in-up">
           <span className="upload-tips-icon">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" /></svg>
           </span>
           <p><strong>Tips for best results:</strong> Photograph your tongue extended, in bright natural light. Keep the camera level with your mouth. Avoid food or drink for 10 minutes beforehand.</p>
         </div>
@@ -87,7 +81,7 @@ function TonguePage() {
             {error && (
               <div className="error-card animate-fade-in">
                 <span className="error-icon">
-                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" /></svg>
                 </span>
                 <p>{error}</p>
               </div>

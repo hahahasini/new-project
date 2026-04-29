@@ -20,7 +20,7 @@ function BodyPartSelector({ bodyParts, selected, onSelect }) {
       </div>
       {selected && !bodyParts.find((p) => p.id === selected)?.hasModel && (
         <p className="selector-mock-notice animate-fade-in">
-          ⚠️ No trained model available for <strong>{selected}</strong> — results will be simulated.
+          ⚠️ No trained model available for <strong>{selected}</strong> - results will be simulated.
         </p>
       )}
     </div>

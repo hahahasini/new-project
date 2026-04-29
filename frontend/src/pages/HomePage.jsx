@@ -2,58 +2,55 @@ import { Link } from 'react-router-dom';
 
 const MODEL_CARDS = [
   {
-    id:          'nail',
-    to:          '/nail',
-    image:       '/nail-icon.png',
-    imageAlt:    'Close-up of a fingernail for vitamin deficiency analysis',
-    title:       'Nail Analysis',
-    subtitle:    'Iodine & Vitamin D',
-    description: 'Your nails can reveal a surprising amount about your nutritional health. Our model reads nail color, texture, ridging patterns, and shape to identify early signs of deficiency — before symptoms become obvious.',
-    tags:        ['Iodine Deficiency', 'Vitamin D', 'Nail Ridges', 'Koilonychia'],
-    color:       'indigo',
-    btnId:       'card-cta-nail',
-    cardId:      'model-card-nail',
+    id: 'nail',
+    to: '/nail',
+    image: '/nail-icon.png',
+    imageAlt: 'Close-up of a fingernail for vitamin deficiency analysis',
+    title: 'Nail Analysis',
+    subtitle: 'Iodine & Vitamin D',
+    description: 'Your nails can reveal a surprising amount about your nutritional health. Our model reads nail color, texture, ridging patterns, and shape to identify early signs of deficiency -before symptoms become obvious.',
+    color: 'indigo',
+    btnId: 'card-cta-nail',
+    cardId: 'model-card-nail',
   },
   {
-    id:          'tongue',
-    to:          '/tongue',
-    image:       '/tongue-icon.png',
-    imageAlt:    'Close-up of a tongue for vitamin B12 and iron deficiency analysis',
-    title:       'Tongue Analysis',
-    subtitle:    'Vitamin B12 & Iron',
+    id: 'tongue',
+    to: '/tongue',
+    image: '/tongue-icon.png',
+    imageAlt: 'Close-up of a tongue for vitamin B12 and iron deficiency analysis',
+    title: 'Tongue Analysis',
+    subtitle: 'Vitamin B12 & Iron',
     description: 'The tongue is one of the body\'s earliest indicators of nutritional gaps. Changes in color, surface texture, and coating are strong visual signals our AI has learned to recognize with clinical precision.',
-    tags:        ['Vitamin B12', 'Iron Deficiency', 'Glossitis', 'Anemia'],
-    color:       'rose',
-    btnId:       'card-cta-tongue',
-    cardId:      'model-card-tongue',
+    color: 'rose',
+    btnId: 'card-cta-tongue',
+    cardId: 'model-card-tongue',
   },
   {
-    id:          'skin',
-    to:          '/skin',
-    image:       '/skin-icon.png',
-    imageAlt:    'Close-up of skin texture for vitamin A and D deficiency analysis',
-    title:       'Skin Analysis',
-    subtitle:    'Vitamin A & Vitamin D',
+    id: 'skin',
+    to: '/skin',
+    image: '/skin-icon.png',
+    imageAlt: 'Close-up of skin texture for vitamin A and D deficiency analysis',
+    title: 'Skin Analysis',
+    subtitle: 'Vitamin A & Vitamin D',
     description: 'Skin changes like dryness, roughness, and scaling are often the first signs of a deeper nutritional imbalance. Upload a clear photo of the affected area and let our model do the rest.',
-    tags:        ['Vitamin A', 'Vitamin D', 'Hyperkeratosis', 'Dry Skin'],
-    color:       'cyan',
-    btnId:       'card-cta-skin',
-    cardId:      'model-card-skin',
+    color: 'cyan',
+    btnId: 'card-cta-skin',
+    cardId: 'model-card-skin',
   },
 ];
 
 const STATS = [
-  { value: '3',     label: 'Specialized AI Models'    },
-  { value: '< 60s', label: 'Average Analysis Time'    },
-  { value: '3+',    label: 'Deficiencies Detected'    },
-  { value: '100%',  label: 'Private — Runs Locally'   },
+  { value: '3', label: 'Specialized AI Models' },
+  { value: '< 60s', label: 'Average Analysis Time' },
+  { value: '3+', label: 'Deficiencies Detected' },
+  { value: '100%', label: 'Private - Runs Locally' },
 ];
 
 const STEPS = [
-  { step: '01', title: 'Upload a Photo',      desc: 'Take a clear, well-lit photo of your nail, tongue, or skin and upload it directly from your device.' },
-  { step: '02', title: 'AI Analysis',         desc: 'Our trained CNN model scans the image for visual biomarkers associated with specific deficiencies.' },
+  { step: '01', title: 'Upload a Photo', desc: 'Take a clear, well-lit photo of your nail, tongue, or skin and upload it directly from your device.' },
+  { step: '02', title: 'AI Analysis', desc: 'Our trained CNN model scans the image for visual biomarkers associated with specific deficiencies.' },
   { step: '03', title: 'Review Your Results', desc: 'Get a confidence-scored diagnosis with a full prediction breakdown so you understand what was detected.' },
-  { step: '04', title: 'Next Steps',          desc: 'Receive a personalized weekly diet plan and find nearby specialists on an interactive map.' },
+  { step: '04', title: 'Next Steps', desc: 'Receive a personalized weekly diet plan and find nearby specialists on an interactive map.' },
 ];
 
 function HomePage() {
@@ -62,7 +59,6 @@ function HomePage() {
 
       {/* ── Hero ── */}
       <section className="home-hero animate-fade-in-up" id="hero-section">
-        <div className="home-hero-badge">AI-Powered Medical Imaging</div>
 
         <h1 className="home-hero-title">
           Understand Your Body
@@ -72,8 +68,8 @@ function HomePage() {
 
         <p className="home-hero-subtitle">
           Your <strong>nails</strong>, <strong>tongue</strong>, and <strong>skin</strong> carry visible clues
-          about what your body is missing. Upload a photo and our AI will analyze it for potential
-          vitamin and mineral deficiencies — in under a minute.
+          about what your body is missing. Upload a photo and our models will analyze it for potential
+          vitamin and mineral deficiencies - in under a minute.
         </p>
 
         <div className="home-hero-actions">
@@ -107,7 +103,7 @@ function HomePage() {
         </div>
 
         <div className="model-cards stagger-children">
-          {MODEL_CARDS.map(({ id, to, image, imageAlt, title, subtitle, description, tags, color, btnId, cardId }) => (
+          {MODEL_CARDS.map(({ id, to, image, imageAlt, title, subtitle, description, color, btnId, cardId }) => (
             <article key={id} className={`model-card model-card--${color}`} id={cardId} aria-label={title}>
 
               {/* Realistic image */}
@@ -128,9 +124,6 @@ function HomePage() {
                   <span className={`model-card-subtitle-pill model-card-subtitle-pill--${color}`}>{subtitle}</span>
                 </div>
                 <p className="model-card-description">{description}</p>
-                <div className="model-card-tags" aria-label="Detectable conditions">
-                  {tags.map(tag => <span key={tag} className="model-tag">{tag}</span>)}
-                </div>
               </div>
 
               <Link to={to} className="model-card-cta btn btn-primary" id={btnId}>

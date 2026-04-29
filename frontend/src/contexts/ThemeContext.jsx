@@ -3,7 +3,7 @@ import { createContext, useContext, useState, useEffect } from 'react';
 const ThemeContext = createContext();
 
 export function ThemeProvider({ children }) {
-  // Always boot in light mode — ignore any previously saved preference.
+  // Always boot in light mode - ignore any previously saved preference.
   // The toggle persists within the session via state; saved to localStorage
   // so rapid re-renders stay consistent, but next page load resets to light.
   const [theme, setTheme] = useState('light');

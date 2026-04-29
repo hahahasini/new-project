@@ -8,10 +8,10 @@ const BODY_PART = 'Nail';
 
 function NailPage() {
   const [selectedImage, setSelectedImage] = useState(null);
-  const [previewUrl,    setPreviewUrl]    = useState(null);
-  const [results,       setResults]       = useState(null);
-  const [loading,       setLoading]       = useState(false);
-  const [error,         setError]         = useState(null);
+  const [previewUrl, setPreviewUrl] = useState(null);
+  const [results, setResults] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleImageSelect = (file) => {
     setSelectedImage(file);
@@ -58,17 +58,12 @@ function NailPage() {
               <p className="page-subtitle">Detects <strong>Iodine</strong> &amp; <strong>Vitamin D</strong> Deficiencies</p>
             </div>
           </div>
-          <div className="page-header-tags">
-            <span className="model-tag">Iodine Deficiency</span>
-            <span className="model-tag">Vitamin D</span>
-            <span className="model-tag">Nail Ridges</span>
-            <span className="model-tag">Koilonychia</span>
-          </div>
+
         </div>
 
         <div className="upload-tips glass animate-fade-in-up">
           <span className="upload-tips-icon">
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" /></svg>
           </span>
           <p><strong>Tips for best results:</strong> Use a well-lit photo of a bare nail (no polish). Capture one fingernail clearly against a plain background. JPG or PNG, max 10 MB.</p>
         </div>
@@ -87,7 +82,7 @@ function NailPage() {
             {error && (
               <div className="error-card animate-fade-in">
                 <span className="error-icon">
-                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" /></svg>
                 </span>
                 <p>{error}</p>
               </div>

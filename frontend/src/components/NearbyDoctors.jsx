@@ -203,8 +203,8 @@ function NearbyDoctors({ deficiency }) {
     doctors.length > 0
       ? doctors.map((d) => [d.lat, d.lon])
       : userCoords
-      ? [[userCoords.lat, userCoords.lon]]
-      : [];
+        ? [[userCoords.lat, userCoords.lon]]
+        : [];
 
   /* ── Badge type helper ── */
   const typeLabel = (type) => {
@@ -228,7 +228,7 @@ function NearbyDoctors({ deficiency }) {
         <h3>🗺️ Find Nearby Doctors</h3>
         <p className="nearby-doctors-desc">
           {deficiency && deficiency !== 'No Vitamin Deficiency'
-            ? `Get checked for ${deficiency} — find hospitals & specialists near you.`
+            ? `Get checked for ${deficiency} - find hospitals & specialists near you.`
             : 'Locate nearby hospitals and medical professionals for a check-up.'}
         </p>
 

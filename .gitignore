@@ -9,7 +9,7 @@ build/
 venv/
 .env
 
-# ML Models (large files — track with Git LFS or download separately)
+# ML Models (large files -track with Git LFS or download separately)
 *.h5
 *.keras
 *.pkl
