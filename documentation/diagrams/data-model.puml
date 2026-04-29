@@ -1,0 +1,203 @@
+@startuml data-model
+' ================================================================
+' PLACEHOLDER-PROJECT-NAME — Data Model Diagram
+' Configuration-Driven Domain Data Architecture
+' ================================================================
+
+skinparam backgroundColor #1a1a2e
+skinparam defaultFontColor #e0e0e0
+skinparam classBorderColor #0f3460
+skinparam classBackgroundColor #16213e
+skinparam arrowColor #e94560
+skinparam packageBorderColor #533483
+skinparam packageBackgroundColor #0f3460
+
+title PLACEHOLDER-PROJECT-NAME — Data Model / Schema Diagram
+
+package "Backend Configuration Data (config.py)" {
+    
+    class Settings {
+        + APP_NAME: str = "Vitamin Deficiency Detection API"
+        + APP_VERSION: str = "1.0.0"
+        + DEBUG: bool = True
+        + BASE_DIR: Path
+        + MODELS_DIR: Path
+        + NAIL_MODEL: str
+        + TONGUE_MODEL: str
+        + SKIN_MODEL: str
+        + DEFAULT_IMG_SIZE: tuple = (224, 224)
+        + CORS_ORIGINS: list[str]
+    }
+    
+    class "BODY_PARTS" as BP {
+        ["Nail", "Skin", "Tongue"]
+    }
+    
+    class "CLASSES" as CLS {
+        Nail: ["No Vitamin Deficiency",
+               "Iodine Deficiency",
+               "Vitamin D Deficiency"]
+        Tongue: ["Vitamin B12 Deficiency",
+                  "Iron Deficiency"]
+        Skin: ["Vitamin D Deficiency",
+                "Vitamin A Deficiency"]
+    }
+    
+    class "DISEASES" as DIS {
+        Nail: ["No disease",
+               "Bluish nails",
+               "Aloperia areata"]
+        Tongue: ["Diabetes",
+                  "Pale tongue"]
+        Skin: ["Acne",
+                "Carcinoma"]
+    }
+    
+    class "FOOD_RECOMMENDATIONS" as FOOD {
+        + [deficiency_name]: MealSet
+        --
+        14 deficiency categories:
+        Vitamin A, B, B3, B12,
+        Iron, Zinc, Iodine,
+        Vitamin C, D, E,
+        Omega-3, Thyroid issues,
+        Low serum vitamin levels,
+        No Vitamin Deficiency
+    }
+    
+    class "MealSet" as MEALS {
+        + breakfast: list[str]
+        + lunch: list[str]
+        + dinner: list[str]
+    }
+}
+
+package "API Schema Models (schemas.py)" {
+    
+    class PredictionScore {
+        + label: str
+        + confidence: float
+    }
+    
+    class Meals {
+        + breakfast: list[str]
+        + lunch: list[str]
+        + dinner: list[str]
+    }
+    
+    class DietDay {
+        + day: str
+        + meals: Meals
+    }
+    
+    class DeficiencyDietPlan {
+        + deficiency: str
+        + confidence: float
+        + weekly_plan: list[DietDay]
+        + food_recommendations: list[str]
+    }
+    
+    class AnalysisResponse {
+        + body_part: str
+        + disease: str
+        + deficiency: str
+        + confidence: float
+        + prediction_scores: list[PredictionScore]
+        + weekly_diet_plan: list[DietDay]
+        + food_recommendations: list[str]
+        + all_diet_plans: list[DeficiencyDietPlan]
+        + model_available: bool
+    }
+    
+    class HealthCheckResponse {
+        + status: str
+        + models_loaded: bool
+        + version: str
+        + available_models: list[str]
+    }
+}
+
+package "ML Model Files (.keras)" {
+    
+    class "Nail Model" as NM {
+        file: Nail_epoch_24.keras
+        size: 273.64 MB
+        input: (1, 224, 224, 3)
+        output: (1, 3)
+        classes: 3
+    }
+    
+    class "Tongue Model" as TM {
+        file: Tongue_epoch_01.keras
+        size: 73.89 MB
+        input: (1, 224, 224, 3)
+        output: (1, 2)
+        classes: 2
+    }
+    
+    class "Skin Model" as SM {
+        file: skin_disease_model_epoch_46.keras
+        size: 84.24 MB
+        input: (1, 224, 224, 3)
+        output: (1, 2)
+        classes: 2
+    }
+}
+
+package "Frontend State (React)" {
+    
+    class "AnalysisPageState" as APS {
+        + selectedImage: File | null
+        + previewUrl: string | null
+        + results: AnalysisResponse | null
+        + loading: boolean
+        + error: string | null
+    }
+    
+    class "NearbyDoctorsState" as NDS {
+        + locationState: "idle"|"requesting"|"granted"|"denied"
+        + userCoords: {lat, lon} | null
+        + doctors: Doctor[]
+        + loading: boolean
+        + fetchError: string | null
+        + selectedDoctor: number | null
+        + searchRadius: number
+    }
+    
+    class "Doctor" as DOC {
+        + id: number
+        + name: string
+        + lat: number
+        + lon: number
+        + type: string
+        + phone: string | null
+        + website: string | null
+        + address: string | null
+        + rating: number
+        + reviewCount: number
+        + openNow: boolean | null
+    }
+    
+    class "ThemeState" as TS {
+        + theme: "light" | "dark"
+        + toggleTheme(): void
+    }
+}
+
+' Relationships
+FOOD "1" *-- "14" MEALS : contains
+CLS "1" -- "1" DIS : index-aligned
+AnalysisResponse "1" *-- "*" PredictionScore
+AnalysisResponse "1" *-- "*" DietDay
+AnalysisResponse "1" *-- "*" DeficiencyDietPlan
+DeficiencyDietPlan "1" *-- "*" DietDay
+DietDay "1" *-- "1" Meals
+
+NM ..> CLS : maps to Nail classes
+TM ..> CLS : maps to Tongue classes
+SM ..> CLS : maps to Skin classes
+
+APS --> AnalysisResponse : stores API response
+NDS --> DOC : stores doctor list
+
+@enduml

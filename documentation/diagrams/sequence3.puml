@@ -1,0 +1,126 @@
+@startuml sequence3
+' ================================================================
+' PLACEHOLDER-PROJECT-NAME — Sequence Diagram 3
+' Nearby Doctors Location Search Workflow
+' ================================================================
+
+skinparam backgroundColor #1a1a2e
+skinparam sequenceParticipantBackgroundColor #16213e
+skinparam sequenceParticipantBorderColor #0f3460
+skinparam sequenceArrowColor #e94560
+skinparam sequenceLifeLineBorderColor #533483
+skinparam noteBorderColor #533483
+skinparam noteBackgroundColor #16213e
+skinparam defaultFontColor #e0e0e0
+
+title Sequence Diagram 3 — Nearby Doctors Search
+
+actor "User" as U
+participant "NearbyDoctors\nComponent" as ND
+participant "Browser\nGeolocation API" as GEO
+participant "Overpass API\n(OpenStreetMap)" as OVP
+participant "Leaflet Map\n(react-leaflet)" as MAP
+participant "Haversine\nCalculator" as HAV
+
+== Initial State (Idle) ==
+
+ND --> U : Render location CTA card:\n  "📍 Share My Location"\n  "We need your location..."
+
+== Location Request ==
+
+U -> ND : Click "📍 Share My Location"
+ND -> ND : setLocationState("requesting")
+ND --> U : Button shows: spinner + "Locating…"
+
+ND -> GEO : navigator.geolocation\n.getCurrentPosition(\n  successCb, errorCb,\n  {enableHighAccuracy: true,\n   timeout: 10000,\n   maximumAge: 60000})
+activate GEO
+
+alt Location Granted
+    GEO --> ND : Position:\n  lat: 17.3850,\n  lon: 78.4867
+    ND -> ND : setUserCoords({lat, lon})
+    ND -> ND : setLocationState("granted")
+    
+else Location Denied
+    GEO --> ND : PositionError (code: 1)
+    ND -> ND : setLocationState("denied")
+    ND -> ND : setFetchError("Location access\nwas denied...")
+    ND --> U : Show error card + "🔄 Retry" button
+    
+else Timeout
+    GEO --> ND : PositionError (code: 3)
+    ND -> ND : setLocationState("denied")
+    ND -> ND : setFetchError("Could not\ndetermine your location...")
+    ND --> U : Show error + retry
+end
+deactivate GEO
+
+== Fetch Nearby Doctors ==
+
+note over ND: useEffect triggers when\nuserCoords changes
+
+ND -> ND : setLoading(true)\nsetFetchError(null)
+
+ND -> OVP : POST /api/interpreter\nContent-Type: x-www-form-urlencoded\n\ndata= OverpassQL query:\n  [out:json][timeout:25];\n  (node["amenity"="hospital"]\n   (around:5000,17.385,78.487);\n   node["amenity"="clinic"]...;\n   node["amenity"="doctors"]...;\n   way["amenity"="hospital"]...;\n  );\n  out body center 30;
+activate OVP
+
+OVP -> OVP : Query OpenStreetMap\nfor matching nodes/ways\nwithin 5000m radius
+
+OVP --> ND : JSON response:\n  {elements: [\n    {id: 12345, lat: 17.39,\n     lon: 78.49,\n     tags: {name: "Apollo Hospital",\n            amenity: "hospital", ...}},\n    ...]}
+deactivate OVP
+
+ND -> ND : Filter: elements with tags.name
+ND -> ND : Map to structured objects:\n  {id, name, lat, lon, type,\n   phone, website, address}
+ND -> ND : Generate pseudo-random ratings:\n  rating = (3.2 + (id%1000)%18/10)\n  reviewCount = 20 + (id%480)
+ND -> ND : Sort by rating (descending)
+ND -> ND : Slice to top 20 results
+ND -> ND : setDoctors(results)\nsetLoading(false)
+
+== Map Rendering ==
+
+ND -> MAP : Render MapContainer\ncenter={[17.385, 78.487]}\nzoom=13
+activate MAP
+
+MAP -> MAP : Load CartoDB dark tiles:\nhttps://{s}.basemaps.cartocdn.com\n/dark_all/{z}/{x}/{y}{r}.png
+
+MAP -> MAP : Add user marker:\n  Custom DivIcon (pulsing blue dot)\n  position={[17.385, 78.487]}
+
+loop For each doctor in doctors[]
+    MAP -> MAP : Add hospital marker:\n  Default Leaflet icon\n  position={[doc.lat, doc.lon]}\n  onClick: setSelectedDoctor(doc.id)
+end
+
+ND -> MAP : FitBounds component:\n  bounds = all marker positions\n  padding: [40, 40]\n  maxZoom: 14
+MAP -> MAP : Adjust viewport to fit\nall markers
+
+MAP --> U : Display interactive map\nwith all markers
+deactivate MAP
+
+== Doctor List Rendering ==
+
+loop For each doctor in doctors[]
+    ND -> HAV : haversineKm(\n  userLat, userLon,\n  docLat, docLon)
+    activate HAV
+    HAV -> HAV : R = 6371 km\ndLat = toRad(lat2-lat1)\ndLon = toRad(lon2-lon1)\na = sin²(dLat/2) + cos(lat1)×cos(lat2)×sin²(dLon/2)\ndistance = R × 2 × atan2(√a, √(1-a))
+    HAV --> ND : distance = 2.3 km
+    deactivate HAV
+    
+    ND --> U : Render doctor card:\n  🏥 Hospital | Apollo Hospital\n  ★★★★☆ 4.2 (342 reviews)\n  📍 2.3 km away
+end
+
+== Radius Change ==
+
+U -> ND : Change radius dropdown:\n  5 km → 10 km
+ND -> ND : setSearchRadius(10000)
+note over ND: useEffect re-triggers\n(searchRadius dependency)
+ND -> OVP : New Overpass query\nwith radius=10000
+OVP --> ND : Updated results
+ND -> MAP : Re-render markers
+ND --> U : Updated map + list
+
+== Marker Interaction ==
+
+U -> MAP : Click hospital marker
+MAP -> ND : setSelectedDoctor(doc.id)
+MAP --> U : Show popup:\n  Name, Rating, Address, Phone
+ND --> U : Highlight doctor card\nin list (selected state)
+
+@enduml

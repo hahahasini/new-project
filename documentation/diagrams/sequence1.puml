@@ -1,0 +1,136 @@
+@startuml sequence1
+' ================================================================
+' PLACEHOLDER-PROJECT-NAME — Sequence Diagram 1
+' Image Upload and Prediction Workflow
+' ================================================================
+
+skinparam backgroundColor #1a1a2e
+skinparam sequenceParticipantBackgroundColor #16213e
+skinparam sequenceParticipantBorderColor #0f3460
+skinparam sequenceArrowColor #e94560
+skinparam sequenceLifeLineBorderColor #533483
+skinparam noteBorderColor #533483
+skinparam noteBackgroundColor #16213e
+skinparam defaultFontColor #e0e0e0
+
+title Sequence Diagram 1 — Image Analysis Workflow
+
+actor "User" as U
+participant "React Frontend\n(AnalysisPage)" as FE
+participant "ImageUploader\nComponent" as UP
+participant "API Service\n(Axios)" as API
+participant "FastAPI\n(Analysis Router)" as BE
+participant "Image Processing\nUtils" as IMG
+participant "PredictorService" as PRED
+participant "TensorFlow\nModel" as TF
+participant "DietPlannerService" as DIET
+participant "ResultsPanel\nComponent" as RES
+
+== Image Selection ==
+
+U -> FE : Navigate to /nail (or /tongue, /skin)
+activate FE
+FE -> UP : Render ImageUploader\n(body_part="Nail")
+activate UP
+
+U -> UP : Drag & drop image file\n(or click to browse)
+UP -> UP : handleDrop()/handleFileChange()
+UP -> UP : Validate file.type\nstartsWith("image/")
+UP -> UP : URL.createObjectURL(file)
+UP --> FE : onImageSelect(file)
+FE -> FE : setState:\nselectedImage, previewUrl
+FE -> UP : Render image preview
+UP --> U : Display image preview
+
+== Analysis Execution ==
+
+U -> FE : Click "Analyze Image"
+FE -> FE : setLoading(true)\nsetError(null)
+FE -> UP : Disable button,\nshow spinner + "Analyzing..."
+FE -> RES : Render skeleton loading state
+
+FE -> API : analyzeImage(imageFile, "Nail")
+activate API
+
+API -> API : Create FormData:\n  file: imageFile\n  body_part: "Nail"
+
+API -> BE : POST /api/analyze\nContent-Type: multipart/form-data\nTimeout: 60s
+activate BE
+
+== Server-Side Validation ==
+
+BE -> BE : Validate body_part\n∈ ["Nail", "Skin", "Tongue"]
+note right: Returns 400 if invalid
+
+BE -> BE : Validate file.content_type\n∈ ["image/jpeg", "image/png"]
+note right: Returns 400 if invalid
+
+== Image Preprocessing ==
+
+BE -> IMG : Read file bytes
+activate IMG
+IMG -> IMG : np.frombuffer(contents, uint8)
+IMG -> IMG : cv2.imdecode(bytes, IMREAD_COLOR)
+IMG -> IMG : cv2.cvtColor(image, BGR2RGB)
+IMG --> BE : RGB NumPy array
+deactivate IMG
+
+BE -> PRED : predict(image, "Nail")
+activate PRED
+
+PRED -> PRED : cv2.resize(image, (224,224))
+PRED -> PRED : img.astype(float32) / 255.0
+PRED -> PRED : np.expand_dims(img, axis=0)
+note right: Shape: (1, 224, 224, 3)
+
+== Model Inference ==
+
+PRED -> TF : model.predict(img_array, verbose=0)
+activate TF
+TF -> TF : Forward pass through CNN layers
+TF --> PRED : prediction[0] = [0.12, 0.05, 0.83]
+deactivate TF
+
+PRED -> PRED : deficiency_index = np.argmax([0.12, 0.05, 0.83]) → 2
+PRED -> PRED : confidence = 0.83 × 100 = 83.0%
+PRED -> PRED : deficiency = CLASSES["Nail"][2]\n= "Vitamin D Deficiency"
+PRED -> PRED : disease = DISEASES["Nail"][2]\n= "Aloperia areata"
+PRED -> PRED : Build prediction_scores list
+
+PRED --> BE : {deficiency, confidence,\ndisease, prediction_scores,\nused_model: true}
+deactivate PRED
+
+== Diet Plan Generation ==
+
+BE -> DIET : generate_weekly_plan("Vitamin D Deficiency")
+activate DIET
+DIET -> DIET : Lookup FOOD_RECOMMENDATIONS\n["Vitamin D Deficiency"]
+DIET -> DIET : Build 7-day plan:\n  Mon–Sun with cycling meals\n  breakfast[i % len], lunch[i % len], dinner[i % len]
+DIET -> DIET : Flatten unique food recommendations
+DIET --> BE : {weekly_plan: [...], food_recommendations: [...]}
+deactivate DIET
+
+loop For each deficiency class (excl. "No Vitamin Deficiency")
+    BE -> DIET : generate_weekly_plan(class_label)
+    DIET --> BE : {weekly_plan, food_recommendations}
+end
+
+BE -> BE : Construct AnalysisResponse\n(Pydantic model validation)
+BE --> API : 200 OK\nJSON: AnalysisResponse
+deactivate BE
+
+API --> FE : response.data
+deactivate API
+
+== Results Display ==
+
+FE -> FE : setResults(data)\nsetLoading(false)
+FE -> RES : Render ResultsPanel\nwith full results
+activate RES
+RES --> U : Display: Body Part, Disease,\nDeficiency, Confidence (83.0%)
+RES -> RES : Render ConfidenceChart\n(Chart.js bar chart)
+RES -> RES : Render DietPlan\n(tabbed weekly plans)
+RES -> RES : Render NearbyDoctors\n(location CTA)
+deactivate RES
+
+@enduml

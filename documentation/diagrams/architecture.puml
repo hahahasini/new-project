@@ -1,0 +1,88 @@
+@startuml architecture
+' ================================================================
+' PLACEHOLDER-PROJECT-NAME — System Architecture Diagram
+' Vitamin Deficiency Detection System
+' ================================================================
+
+skinparam backgroundColor #1a1a2e
+skinparam defaultFontColor #e0e0e0
+skinparam componentBackgroundColor #16213e
+skinparam componentBorderColor #0f3460
+skinparam packageBackgroundColor #0f3460
+skinparam packageBorderColor #533483
+skinparam arrowColor #e94560
+skinparam noteBorderColor #533483
+skinparam noteBackgroundColor #16213e
+
+title PLACEHOLDER-PROJECT-NAME — System Architecture
+
+package "Frontend (React 18 + Vite 5)" as FE {
+    [React Router DOM] as Router
+    [HomePage] as Home
+    [NailPage / TonguePage / SkinPage] as AnalysisPages
+    [ImageUploader] as Uploader
+    [ResultsPanel] as Results
+    [ConfidenceChart] as Chart
+    [DietPlan] as Diet
+    [NearbyDoctors] as Doctors
+    [Navbar + Footer] as Nav
+    [ThemeContext] as Theme
+    [API Service (Axios)] as ApiClient
+}
+
+package "Backend (FastAPI + Uvicorn)" as BE {
+    [CORS Middleware] as CORS
+    [Analysis Router] as AnalysisRouter
+    [Health Router] as HealthRouter
+    [PredictorService] as Predictor
+    [DietPlannerService] as DietService
+    [Image Processing Utils] as ImgUtils
+    [Config (Pydantic Settings)] as Config
+}
+
+package "ML Models (TensorFlow/Keras)" as ML {
+    [Nail CNN\n(Nail_epoch_24.keras)] as NailModel
+    [Tongue CNN\n(Tongue_epoch_01.keras)] as TongueModel
+    [Skin CNN\n(skin_disease_model_epoch_46.keras)] as SkinModel
+}
+
+package "External Services" as EXT {
+    [Overpass API\n(OpenStreetMap)] as Overpass
+    [CartoDB Tile Server] as Tiles
+    [Browser Geolocation API] as GeoAPI
+}
+
+' Frontend internal flow
+Router --> Home
+Router --> AnalysisPages
+AnalysisPages --> Uploader
+AnalysisPages --> Results
+Results --> Chart
+Results --> Diet
+Results --> Doctors
+Nav --> Theme
+
+' Frontend → Backend
+ApiClient --> CORS : "HTTP POST /api/analyze\n(multipart/form-data)"
+ApiClient --> CORS : "HTTP GET /api/health"
+
+' Backend internal flow
+CORS --> AnalysisRouter
+CORS --> HealthRouter
+AnalysisRouter --> ImgUtils : "Decode + Preprocess"
+AnalysisRouter --> Predictor : "Predict deficiency"
+AnalysisRouter --> DietService : "Generate diet plan"
+Predictor --> Config : "Load class mappings"
+DietService --> Config : "Load food recommendations"
+
+' Backend → ML Models
+Predictor --> NailModel : "model.predict()"
+Predictor --> TongueModel : "model.predict()"
+Predictor --> SkinModel : "model.predict()"
+
+' Frontend → External
+Doctors --> GeoAPI : "getCurrentPosition()"
+Doctors --> Overpass : "HTTP POST\n(OverpassQL query)"
+Doctors --> Tiles : "HTTPS tile requests"
+
+@enduml

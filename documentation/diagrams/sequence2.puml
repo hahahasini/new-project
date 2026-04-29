@@ -1,0 +1,119 @@
+@startuml sequence2
+' ================================================================
+' PLACEHOLDER-PROJECT-NAME — Sequence Diagram 2
+' Diet Plan Generation & Interaction Workflow
+' ================================================================
+
+skinparam backgroundColor #1a1a2e
+skinparam sequenceParticipantBackgroundColor #16213e
+skinparam sequenceParticipantBorderColor #0f3460
+skinparam sequenceArrowColor #e94560
+skinparam sequenceLifeLineBorderColor #533483
+skinparam noteBorderColor #533483
+skinparam noteBackgroundColor #16213e
+skinparam defaultFontColor #e0e0e0
+
+title Sequence Diagram 2 — Diet Plan Generation & Download
+
+actor "User" as U
+participant "ResultsPanel" as RES
+participant "DietPlan\nComponent" as DP
+participant "DietPlannerService\n(Backend)" as DPS
+participant "Config\n(FOOD_RECOMMENDATIONS)" as CFG
+
+== Diet Plan Data Flow ==
+
+RES -> DP : Render DietPlan with props:\n  weeklyPlan, foodRecommendations,\n  deficiency, confidence, allDietPlans
+activate DP
+
+DP -> DP : Filter allDietPlans:\n  confidence >= 0.1%\n  Sort descending by confidence
+DP -> DP : Set activeTab = 0\n(highest confidence)
+
+note over DP
+  Example allDietPlans:
+  [
+    {deficiency: "Vitamin D Deficiency", confidence: 83.0, ...},
+    {deficiency: "Iodine Deficiency", confidence: 12.0, ...}
+  ]
+  (Excluding "No Vitamin Deficiency")
+end note
+
+== Tab Rendering ==
+
+DP --> U : Render tabs:\n  Tab 1: "Vitamin D Deficiency — 83.0%"\n  Tab 2: "Iodine Deficiency — 12.0%"
+
+DP --> U : Display active plan:\n  💊 Vitamin D Deficiency (83.0%)\n  7-day meal grid
+
+== Weekly Plan Display ==
+
+DP -> DP : Iterate activePlan.weekly_plan\n(Monday through Sunday)
+
+loop For each day (Mon–Sun)
+    DP -> DP : Extract meals:\n  ☕ Breakfast: day.meals.breakfast[]\n  🥗 Lunch: day.meals.lunch[]\n  🍲 Dinner: day.meals.dinner[]
+    DP --> U : Render diet-day card:\n  Day name + 3 meal sections
+end
+
+DP -> DP : Check food_recommendations\n(de-duplicated from all meals)
+DP --> U : Render "🍎 Recommended Foods"\n  section with food tags
+
+== User Tab Switching ==
+
+U -> DP : Click Tab 2: "Iodine Deficiency"
+DP -> DP : setActiveTab(1)
+DP -> DP : activePlan = plans[1]\n(Iodine Deficiency data)
+DP --> U : Fade-in new meal plan\n  with updated 7-day grid
+DP --> U : Update food recommendation tags
+
+== Diet Plan Download ==
+
+U -> DP : Click "📥 Download All Diet Plans"
+activate DP
+
+DP -> DP : generateDietPlanText()
+
+loop For each plan in allDietPlans
+    DP -> DP : Append header:\n  "Diet Plan for {deficiency} ({confidence}%)"
+    loop For each day in plan.weekly_plan
+        DP -> DP : Append:\n  "{Day}:\n    Breakfast: {meals}\n    Lunch: {meals}\n    Dinner: {meals}"
+    end
+    DP -> DP : Append:\n  "Recommended Foods: {list}"
+end
+
+DP -> DP : Create Blob(text, "text/plain")
+DP -> DP : URL.createObjectURL(blob)
+DP -> DP : Create <a> element:\n  href = objectURL\n  download = "diet_plans_all_deficiencies.txt"
+DP -> DP : Programmatically click <a>
+DP -> DP : Remove <a> from DOM
+DP -> DP : URL.revokeObjectURL(url)
+
+DP --> U : Browser downloads\n"diet_plans_all_deficiencies.txt"
+deactivate DP
+
+== Backend Diet Plan Generation (Detail) ==
+
+note over DPS, CFG
+  This occurs during the /api/analyze request.
+  Shown here for completeness.
+end note
+
+RES -> DPS : generate_weekly_plan("Vitamin D Deficiency")
+activate DPS
+
+DPS -> CFG : Lookup FOOD_RECOMMENDATIONS\n["Vitamin D Deficiency"]
+activate CFG
+CFG --> DPS : {breakfast: [...], lunch: [...], dinner: [...]}
+deactivate CFG
+
+loop i = 0 to 6 (Monday to Sunday)
+    DPS -> DPS : breakfast = foods["breakfast"][i % 4]
+    DPS -> DPS : lunch = foods["lunch"][i % 4]
+    DPS -> DPS : dinner = foods["dinner"][i % 4]
+    DPS -> DPS : Append to weekly_plan:\n  {day: DAYS[i], meals: {breakfast, lunch, dinner}}
+end
+
+DPS -> DPS : Flatten all unique foods\nfrom breakfast + lunch + dinner pools
+
+DPS --> RES : {weekly_plan: [7 days],\n food_recommendations: [12 unique foods]}
+deactivate DPS
+
+@enduml

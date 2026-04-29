@@ -1,0 +1,85 @@
+@startuml usecase
+' ================================================================
+' PLACEHOLDER-PROJECT-NAME — Use Case Diagram
+' Vitamin Deficiency Detection System
+' ================================================================
+
+skinparam backgroundColor #1a1a2e
+skinparam defaultFontColor #e0e0e0
+skinparam usecaseBackgroundColor #16213e
+skinparam usecaseBorderColor #0f3460
+skinparam actorBorderColor #e94560
+skinparam packageBorderColor #533483
+
+title PLACEHOLDER-PROJECT-NAME — Use Case Diagram
+
+left to right direction
+
+actor "End User" as User
+actor "System\n(Automated)" as System
+actor "Overpass API\n(External)" as Overpass
+actor "Browser\nGeolocation" as Geo
+
+rectangle "PLACEHOLDER-PROJECT-NAME System Boundary" {
+    usecase "UC1: Select Body Part\n(Nail/Tongue/Skin)" as UC1
+    usecase "UC2: Upload Image\n(Drag & Drop / Browse)" as UC2
+    usecase "UC3: Preview Image" as UC3
+    usecase "UC4: Analyze Image" as UC4
+    usecase "UC5: View Results\n(Disease + Deficiency)" as UC5
+    usecase "UC6: View Confidence Chart" as UC6
+    usecase "UC7: View Diet Plans" as UC7
+    usecase "UC8: Switch Diet Plan Tabs" as UC8
+    usecase "UC9: Download Diet Plans" as UC9
+    usecase "UC10: Enable Location" as UC10
+    usecase "UC11: View Nearby Doctors Map" as UC11
+    usecase "UC12: Adjust Search Radius" as UC12
+    usecase "UC13: View Doctor Details" as UC13
+    usecase "UC14: Toggle Dark/Light Theme" as UC14
+    usecase "UC15: Navigate Between Pages" as UC15
+    usecase "UC16: Reset Analysis" as UC16
+    usecase "UC17: Check API Health" as UC17
+    usecase "UC18: Preprocess Image" as UC18
+    usecase "UC19: Run CNN Inference" as UC19
+    usecase "UC20: Generate Diet Plan" as UC20
+    usecase "UC21: Calculate Distances" as UC21
+}
+
+' User interactions
+User --> UC1
+User --> UC2
+User --> UC3
+User --> UC4
+User --> UC5
+User --> UC6
+User --> UC7
+User --> UC8
+User --> UC9
+User --> UC10
+User --> UC11
+User --> UC12
+User --> UC13
+User --> UC14
+User --> UC15
+User --> UC16
+
+' System automated
+System --> UC17
+System --> UC18
+System --> UC19
+System --> UC20
+System --> UC21
+
+' External actors
+Overpass --> UC11
+Geo --> UC10
+
+' Relationships
+UC4 ..> UC18 : <<include>>
+UC4 ..> UC19 : <<include>>
+UC4 ..> UC20 : <<include>>
+UC5 ..> UC6 : <<include>>
+UC5 ..> UC7 : <<include>>
+UC11 ..> UC21 : <<include>>
+UC2 ..> UC3 : <<include>>
+
+@enduml

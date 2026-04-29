@@ -1,0 +1,129 @@
+@startuml deployment
+' ================================================================
+' PLACEHOLDER-PROJECT-NAME — Deployment Diagram
+' Local Development & Production Deployment Topology
+' ================================================================
+
+skinparam backgroundColor #1a1a2e
+skinparam defaultFontColor #e0e0e0
+skinparam nodeBorderColor #0f3460
+skinparam nodeBackgroundColor #16213e
+skinparam componentBackgroundColor #0f3460
+skinparam componentBorderColor #533483
+skinparam arrowColor #e94560
+skinparam noteBorderColor #533483
+skinparam noteBackgroundColor #16213e
+
+title PLACEHOLDER-PROJECT-NAME — Deployment Architecture
+
+node "User Device\n(Browser)" as CLIENT {
+    component "Chrome / Firefox /\nSafari / Edge" as BROWSER
+    component "Geolocation API" as GEO_HW
+}
+
+node "Development Machine\n(localhost)" as DEV {
+    
+    node "Frontend Server\n(localhost:5173)" as FE_NODE {
+        component "Vite Dev Server" as VITE
+        component "React 18 SPA\n(HMR enabled)" as REACT
+        
+        artifact "node_modules/\n(~160 MB)" as NODE_MODS
+        artifact "src/\n(components, pages,\nservices, contexts)" as SRC
+    }
+    
+    node "Backend Server\n(localhost:8000)" as BE_NODE {
+        component "Uvicorn ASGI\n(--reload mode)" as UVICORN
+        component "FastAPI Application" as FASTAPI
+        component "CORS Middleware" as CORS_MW
+        
+        node "Service Layer" as SVC {
+            component "PredictorService" as PRED_SVC
+            component "DietPlannerService" as DIET_SVC
+        }
+        
+        node "ML Runtime" as ML_RT {
+            component "TensorFlow 2.16\n(CPU mode)" as TF_RT
+        }
+    }
+    
+    node "Model Storage\n(backend/models/)" as MODEL_STORE {
+        artifact "nail/Nail_epoch_24.keras\n(273.64 MB)" as NAIL_W
+        artifact "tongue/Tongue_epoch_01.keras\n(73.89 MB)" as TONGUE_W
+        artifact "skin/skin_disease_model_epoch_46.keras\n(84.24 MB)" as SKIN_W
+    }
+    
+    node "Python Environment" as PY_ENV {
+        artifact "requirements.txt" as REQS
+        component "Python 3.9+" as PYTHON
+        component "pip packages\n(fastapi, tensorflow,\nopencv, numpy, pillow)" as PIP
+    }
+}
+
+cloud "External Services\n(Internet Required)" as EXT {
+    node "OpenStreetMap Infrastructure" as OSM {
+        component "Overpass API\n(overpass-api.de)" as OVERPASS
+        component "CartoDB Tile Server\n(basemaps.cartocdn.com)" as CARTO
+    }
+    
+    node "CDN Resources" as CDN {
+        component "Leaflet Marker Icons\n(cdnjs.cloudflare.com)" as LEAFLET_CDN
+    }
+}
+
+cloud "Training Infrastructure\n(One-time Setup)" as TRAIN {
+    node "Google Colab /\nKaggle Notebooks" as COLAB {
+        component "Jupyter Notebooks\n(nail, tongue, skin)" as NOTEBOOKS
+        component "GPU Runtime\n(Training Only)" as GPU
+    }
+    
+    node "Dataset Storage" as DATA {
+        artifact "Nail Dataset\n(134 test samples)" as NAIL_DATA
+        artifact "Tongue Dataset\n(76 test samples)" as TONGUE_DATA
+        artifact "Skin Dataset\n(280 test samples)" as SKIN_DATA
+    }
+}
+
+' Connections
+BROWSER --> VITE : HTTP GET\n(localhost:5173)
+BROWSER --> UVICORN : HTTP POST/GET\n(localhost:8000/api/*)
+BROWSER --> OVERPASS : HTTP POST\n(OverpassQL queries)
+BROWSER --> CARTO : HTTPS GET\n(map tiles)
+BROWSER --> LEAFLET_CDN : HTTPS GET\n(marker icons)
+GEO_HW --> BROWSER : lat/lon coordinates
+
+VITE --> REACT : ES Module HMR
+REACT --> SRC : Component source
+
+UVICORN --> FASTAPI
+FASTAPI --> CORS_MW : Filter origins
+FASTAPI --> PRED_SVC
+FASTAPI --> DIET_SVC
+PRED_SVC --> TF_RT : model.predict()
+TF_RT --> NAIL_W : Load at startup
+TF_RT --> TONGUE_W : Load at startup
+TF_RT --> SKIN_W : Load at startup
+
+PYTHON --> PIP : pip install -r requirements.txt
+
+NOTEBOOKS --> GPU : Training execution
+GPU --> MODEL_STORE : Export .keras files
+
+note right of DEV
+  **System Requirements:**
+  - CPU: 2+ cores (x86_64)
+  - RAM: 4+ GB
+  - Disk: 2+ GB
+  - Python 3.9+
+  - Node.js 18+
+  - No GPU required for inference
+end note
+
+note right of EXT
+  **External Dependencies:**
+  - Overpass API: No auth, rate limited
+  - CartoDB tiles: Free usage tier
+  - Leaflet CDN: Public static assets
+  - All optional (core analysis works offline)
+end note
+
+@enduml

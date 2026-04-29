@@ -1,0 +1,109 @@
+@startuml state
+' ================================================================
+' PLACEHOLDER-PROJECT-NAME — State Diagram
+' User Session & Analysis Processing States
+' ================================================================
+
+skinparam backgroundColor #1a1a2e
+skinparam defaultFontColor #e0e0e0
+skinparam stateBorderColor #0f3460
+skinparam stateBackgroundColor #16213e
+skinparam arrowColor #e94560
+skinparam noteBorderColor #533483
+
+title PLACEHOLDER-PROJECT-NAME — State Machine Diagram
+
+[*] --> HomePage : Application Load
+
+state "Home Page" as HomePage {
+    state "Browsing Models" as Browse
+    state "Reading How-It-Works" as HowItWorks
+    
+    Browse --> HowItWorks : Scroll down
+    HowItWorks --> Browse : Scroll up
+}
+
+HomePage --> AnalysisPage : Click "Analyze Now"\nor nav link
+
+state "Analysis Page" as AnalysisPage {
+    
+    state "Idle" as Idle : No image selected\nDropzone visible
+    state "Image Selected" as Selected : Preview visible\nButtons enabled
+    state "Analyzing" as Analyzing : Loading spinner\nButtons disabled
+    state "Results Displayed" as Results : Full results visible
+    state "Error" as Error : Error message shown
+    
+    [*] --> Idle
+    
+    Idle --> Selected : File selected\n(drag & drop or browse)
+    Selected --> Analyzing : Click "Analyze Image"
+    Selected --> Idle : Click "Clear"
+    Analyzing --> Results : API returns 200 OK
+    Analyzing --> Error : API error\nor network failure
+    Error --> Selected : Image still selected\n(can retry)
+    Results --> Idle : Click "Clear"
+    Results --> Selected : Select new image
+    
+    state "Results Sub-States" as ResultsSub {
+        state "Viewing Summary" as Summary : Body part, disease,\ndeficiency, confidence
+        state "Viewing Chart" as Chart : Confidence bar chart
+        state "Viewing Diet Plans" as DietView
+        state "Viewing Nearby Doctors" as DoctorsView
+        
+        Summary --> Chart : Scroll to chart
+        Chart --> DietView : Scroll to diet
+        DietView --> DoctorsView : Scroll to doctors
+    }
+    
+    Results --> ResultsSub
+}
+
+AnalysisPage --> HomePage : Click "← Back to Models"\nor logo/home nav
+
+state "Diet Plan Interaction" as DietState {
+    state "Tab 1 Active" as Tab1 : Highest confidence\ndeficiency diet plan
+    state "Tab N Active" as TabN : Alternative\ndeficiency diet plan
+    state "Downloading" as Download : Generating .txt file
+    
+    [*] --> Tab1
+    Tab1 --> TabN : Click another tab
+    TabN --> Tab1 : Click first tab
+    Tab1 --> Download : Click "Download All"
+    TabN --> Download : Click "Download All"
+    Download --> Tab1 : Download complete
+    Download --> TabN : Download complete
+}
+
+state "Nearby Doctors Flow" as DoctorsFlow {
+    state "Location Idle" as LocIdle : CTA card visible\n"Share My Location"
+    state "Requesting Location" as LocReq : Spinner + "Locating..."
+    state "Location Granted" as LocGranted : Coordinates received
+    state "Location Denied" as LocDenied : Error + "Retry" button
+    state "Fetching Doctors" as Fetching : Overpass API query
+    state "Map Displayed" as MapReady : Map + doctor list
+    state "No Results" as NoResults : Empty results card
+    state "Fetch Error" as FetchErr : Error card
+    
+    [*] --> LocIdle
+    LocIdle --> LocReq : Click "Share My Location"
+    LocReq --> LocGranted : Permission granted
+    LocReq --> LocDenied : Permission denied\nor timeout
+    LocDenied --> LocReq : Click "Retry"
+    LocGranted --> Fetching : Auto-trigger\n(useEffect)
+    Fetching --> MapReady : Results found
+    Fetching --> NoResults : No results in radius
+    Fetching --> FetchErr : API error
+    MapReady --> Fetching : Radius changed
+    NoResults --> Fetching : Radius changed
+}
+
+state "Theme State" as ThemeState {
+    state "Light Mode" as Light
+    state "Dark Mode" as Dark
+    
+    [*] --> Light : Default on load
+    Light --> Dark : Toggle click
+    Dark --> Light : Toggle click
+}
+
+@enduml
