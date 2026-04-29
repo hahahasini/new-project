@@ -1,12 +1,17 @@
 import { useState } from 'react';
 
-function DietPlan({ weeklyPlan, foodRecommendations, deficiency, allDietPlans }) {
+function DietPlan({ weeklyPlan, foodRecommendations, deficiency, confidence, allDietPlans }) {
   // Use allDietPlans (tabbed) if available, else fallback to the single plan
-  const plans = allDietPlans && allDietPlans.length > 0
+  const plans = (allDietPlans && allDietPlans.length > 0
     ? allDietPlans
-    : [{ deficiency, confidence: null, weekly_plan: weeklyPlan, food_recommendations: foodRecommendations }];
+    : [{ deficiency, confidence, weekly_plan: weeklyPlan, food_recommendations: foodRecommendations }])
+    .filter(p => p.confidence === null || p.confidence >= 0.1)
+    .sort((a, b) => (b.confidence || 0) - (a.confidence || 0));
 
   const [activeTab, setActiveTab] = useState(0);
+  
+  if (!plans || plans.length === 0) return null;
+
   const activePlan = plans[activeTab];
 
   const generateDietPlanText = () => {

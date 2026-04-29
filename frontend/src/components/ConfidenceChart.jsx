@@ -12,8 +12,9 @@ import {
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 function ConfidenceChart({ scores }) {
-  const labels = scores.map((s) => s.label);
-  const values = scores.map((s) => s.confidence);
+  const sortedScores = [...scores].sort((a, b) => b.confidence - a.confidence);
+  const labels = sortedScores.map((s) => s.label);
+  const values = sortedScores.map((s) => s.confidence);
 
   const data = {
     labels,

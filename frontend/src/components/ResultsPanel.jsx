@@ -31,7 +31,7 @@ function ResultsPanel({ results, loading }) {
 
       {!results.model_available && (
         <div className="selector-mock-notice animate-fade-in" style={{ marginBottom: '20px', padding: '10px', borderLeft: '4px solid #ef4444' }}>
-          <strong>Mock Prediction:</strong> The AI model could not be loaded. These results are simulated.
+          <strong>Mock Prediction:</strong> The model could not be loaded. These results are simulated.
         </div>
       )}
 
@@ -99,6 +99,7 @@ function ResultsPanel({ results, loading }) {
         weeklyPlan={results.weekly_diet_plan}
         foodRecommendations={results.food_recommendations}
         deficiency={results.deficiency}
+        confidence={results.confidence}
         allDietPlans={results.all_diet_plans}
       />
 

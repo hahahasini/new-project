@@ -8,7 +8,7 @@ const MODEL_CARDS = [
     imageAlt: 'Close-up of a fingernail for vitamin deficiency analysis',
     title: 'Nail Analysis',
     subtitle: 'Iodine & Vitamin D',
-    description: 'Your nails can reveal a surprising amount about your nutritional health. Our model reads nail color, texture, ridging patterns, and shape to identify early signs of deficiency -before symptoms become obvious.',
+    description: 'Your nails can reveal a surprising amount about your nutritional health. Our model reads nail color, texture, ridging patterns, and shape to identify early signs of deficiency - before symptoms become obvious.',
     color: 'indigo',
     btnId: 'card-cta-nail',
     cardId: 'model-card-nail',
@@ -20,7 +20,7 @@ const MODEL_CARDS = [
     imageAlt: 'Close-up of a tongue for vitamin B12 and iron deficiency analysis',
     title: 'Tongue Analysis',
     subtitle: 'Vitamin B12 & Iron',
-    description: 'The tongue is one of the body\'s earliest indicators of nutritional gaps. Changes in color, surface texture, and coating are strong visual signals our AI has learned to recognize with clinical precision.',
+    description: 'The tongue is one of the body\'s earliest indicators of nutritional gaps. Changes in color, surface texture, and coating are strong visual signals our model has learned to recognize with clinical precision.',
     color: 'rose',
     btnId: 'card-cta-tongue',
     cardId: 'model-card-tongue',
@@ -40,15 +40,15 @@ const MODEL_CARDS = [
 ];
 
 const STATS = [
-  { value: '3', label: 'Specialized AI Models' },
-  { value: '< 60s', label: 'Average Analysis Time' },
+  { value: '3', label: 'Specialized Models' },
+  { value: '< 2s', label: 'Average Analysis Time' },
   { value: '3+', label: 'Deficiencies Detected' },
   { value: '100%', label: 'Private - Runs Locally' },
 ];
 
 const STEPS = [
   { step: '01', title: 'Upload a Photo', desc: 'Take a clear, well-lit photo of your nail, tongue, or skin and upload it directly from your device.' },
-  { step: '02', title: 'AI Analysis', desc: 'Our trained CNN model scans the image for visual biomarkers associated with specific deficiencies.' },
+  { step: '02', title: 'Model Analysis', desc: 'Our trained CNN model scans the image for visual biomarkers associated with specific deficiencies.' },
   { step: '03', title: 'Review Your Results', desc: 'Get a confidence-scored diagnosis with a full prediction breakdown so you understand what was detected.' },
   { step: '04', title: 'Next Steps', desc: 'Receive a personalized weekly diet plan and find nearby specialists on an interactive map.' },
 ];
@@ -93,7 +93,7 @@ function HomePage() {
       </section>
 
       {/* ── Model Cards ── */}
-      <section className="model-cards-section" id="models" aria-label="AI Models">
+      <section className="model-cards-section" id="models" aria-label="Models">
         <div className="section-header animate-fade-in-up">
           <h2 className="section-title">Choose Your Analysis</h2>
           <p className="section-subtitle">
