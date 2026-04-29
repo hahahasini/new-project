@@ -32,88 +32,77 @@
 
 ---
 
-## 3. Issues Found and Resolved
+## 3. Issues Identified During Development
 
 ### 3.1 Critical Issues
 
-| Issue | Discovery | Resolution |
+| Issue | How It Was Identified | Resolution |
 |:---|:---|:---|
-| TensorFlow model loading crash on missing files | Integration test: server crash on startup without model files | Added try/except in lifespan handler; server starts in demo mode with mock predictions |
-| CORS blocking frontend requests | Integration test: browser CORS error | Added frontend origins to `CORS_ORIGINS` whitelist in config |
-| BGR/RGB color space mismatch | ML test: wrong predictions on first attempt | Added `cv2.cvtColor(image, cv2.COLOR_BGR2RGB)` after decode |
+| Server crash when model files are missing | Backend failed to start without `.keras` files in `backend/models/` | Added `try/except` in `lifespan()` handler in `main.py`; server starts in demo mode with mock predictions via `np.random.dirichlet` |
+| CORS blocking frontend API calls | Browser blocked requests from `localhost:5173` to `localhost:8000` | Added frontend origins to `CORS_ORIGINS` list in `config.py` |
+| BGR/RGB color space mismatch | Model predictions were incorrect on initial implementation | Added `cv2.cvtColor(image, cv2.COLOR_BGR2RGB)` in `analysis.py` after `cv2.imdecode` |
 
 ### 3.2 Minor Issues
 
-| Issue | Discovery | Resolution |
-|:---|:---|:---|
-| Leaflet default icon paths broken by Vite | UI test: missing map markers | Overrode `L.Icon.Default` options with CDN URLs |
-| Object URL memory leak | UI test: memory growth on repeated uploads | Added `URL.revokeObjectURL` in cleanup |
-| Race condition in NearbyDoctors | Edge test: stale API responses | Added `cancelled` flag in useEffect cleanup |
-| Chart.js double-render | UI test: flickering chart | Used `key` prop for re-mount on data change |
+| Issue | Resolution |
+|:---|:---|
+| Leaflet default marker icons broken by Vite bundler | Overrode `L.Icon.Default` options with CDN-hosted icon URLs |
+| Object URL memory leak on repeated image uploads | Added `URL.revokeObjectURL` cleanup in image selection handler |
+| Stale Overpass API responses updating state after radius change | Added `cancelled` flag in `useEffect` cleanup in `NearbyDoctors.jsx` |
 
 ---
 
-## 4. Known Issues
+## 4. Known Limitations
 
-| Issue | Severity | Impact | Workaround |
+| Limitation | Severity | Impact | Mitigation |
 |:---|:---:|:---|:---|
-| Nail model low accuracy for "No Disease" (35.93%) and "Bluish nail" (33.33%) | Medium | May misclassify healthy nails or bluish nails | Users should treat low-confidence results with caution; medical disclaimer displayed |
-| No rate limiting on API | Low | Server vulnerable to request flooding | Local deployment mitigates risk; add `slowapi` for production |
-| Diet plan text download lacks formatting | Low | Plain text file has basic formatting | Future: implement PDF report generation |
+| Nail model low accuracy for "No Disease" (35.93%) and "Bluish nail" (33.33%) | Medium | May misclassify healthy nails or bluish nail conditions | Medical disclaimer displayed; users advised to consult healthcare professionals |
+| No rate limiting on API | Low | Server could be flooded with requests | Local deployment reduces risk; `slowapi` middleware recommended for production |
+| Diet plan download is plain text only | Low | Basic formatting in downloaded file | Future enhancement: PDF report generation |
 
 ---
 
-## 5. Test Coverage Summary
+## 5. Test Coverage
 
-### 5.1 Code Coverage (Estimated)
-
-| Module | Coverage | Notes |
-|:---|:---:|:---|
-| `analysis.py` (router) | ~95% | All endpoints tested, all error paths covered |
-| `predictor.py` (service) | ~90% | Model loading, prediction, mock mode tested |
-| `diet_planner.py` (service) | ~95% | Normal and edge cases covered |
-| `image_processing.py` (utils) | ~85% | Core functions tested |
-| `schemas.py` (models) | ~100% | Pydantic auto-validates |
-| Frontend components | ~75% | Key interactions tested manually |
-
-### 5.2 Feature Coverage
+### 5.1 Feature Coverage
 
 | Feature | Tested? | Method |
 |:---|:---:|:---|
-| Image upload (drag & drop) | ✅ | Manual UI test |
-| Image upload (file browser) | ✅ | Manual UI test |
-| Nail analysis | ✅ | Unit + Integration |
-| Tongue analysis | ✅ | Unit + Integration |
-| Skin analysis | ✅ | Unit + Integration |
-| Confidence chart | ✅ | Manual UI test |
-| Diet plan tabs | ✅ | Manual UI test |
-| Diet plan download | ✅ | Manual UI test |
-| Dark/light theme | ✅ | Manual UI test |
-| Nearby doctors (map) | ✅ | Manual UI test |
-| Mobile navigation | ✅ | Manual UI test |
-| Error handling | ✅ | Unit + Negative tests |
-| Health check | ✅ | Unit test |
+| Image upload (drag & drop) | ✅ | Manual UI testing |
+| Image upload (file browser) | ✅ | Manual UI testing |
+| Nail / Tongue / Skin analysis | ✅ | API testing with test images |
+| Confidence chart rendering | ✅ | Manual UI testing |
+| Diet plan tab switching | ✅ | Manual UI testing |
+| Diet plan download (.txt) | ✅ | Manual UI testing |
+| Dark/light theme toggle | ✅ | Manual UI testing |
+| Nearby doctors map | ✅ | Manual testing with location permission |
+| Nearby doctors radius change | ✅ | Manual UI testing |
+| Mobile responsive navigation | ✅ | Manual testing at mobile viewport |
+| Error handling (invalid file type) | ✅ | API testing with PDF upload |
+| Error handling (invalid body part) | ✅ | API testing with invalid parameter |
+| Health check endpoint | ✅ | cURL testing |
+| Mock prediction fallback | ✅ | Testing with missing model file |
 
 ---
 
 ## 6. Lessons Learned
 
-1. **Model file management**: Models are too large for Git; need Git LFS or separate storage
-2. **Color space matters**: OpenCV reads BGR by default; always convert to RGB for TensorFlow
-3. **Browser API permissions**: Geolocation requires user consent; must handle denial gracefully
-4. **Leaflet + bundlers**: Default icon paths break; CDN fallback needed
-5. **TensorFlow memory**: Each model consumes significant RAM; monitor with psutil
-6. **Cyclic testing**: When meal arrays have 4 items and plans need 7, cyclic indexing must be tested for day 5-7
+1. **Color space matters**: OpenCV reads images as BGR by default; TensorFlow models expect RGB. The explicit `cv2.cvtColor` call is essential.
+2. **Model file management**: Model files (73–274 MB each) are too large for Git. Use Git LFS or distribute separately.
+3. **Browser API permissions**: Geolocation access requires user consent and has different failure modes (denied, timeout, unsupported). All must be handled.
+4. **Leaflet + modern bundlers**: Default icon paths break in Vite/webpack. CDN-based icon URLs are a reliable fix.
+5. **Memory management**: TensorFlow models consume significant RAM (77–579 MB each). Monitor with `psutil` and budget ~750 MB total.
+6. **Graceful degradation**: Designing the system to work with missing models (mock prediction mode) was essential for development without large model files.
 
 ---
 
-## 7. Recommendations
+## 7. Recommendations for Improvement
 
-1. **Nail model improvement**: Collect more diverse training data for "No Disease" and "Bluish nail" classes; increase training epochs; apply targeted augmentation
-2. **Automated testing**: Implement pytest test suite for backend; Vitest for frontend components
+1. **Nail model**: Collect more diverse training data for "No Disease" and "Bluish nail" classes; increase training epochs
+2. **Automated test suite**: Implement `pytest` for backend and `Vitest` for frontend components
 3. **CI/CD pipeline**: Add GitHub Actions for automated testing on push/PR
-4. **Model monitoring**: Track prediction confidence distributions in production to detect drift
-5. **Accessibility audit**: Conduct full WCAG 2.1 compliance audit with automated tools (axe, Lighthouse)
+4. **Model monitoring**: Track prediction confidence distributions to detect model drift over time
+5. **Accessibility audit**: Run full WCAG 2.1 compliance check with automated tools (axe, Lighthouse)
 
 ---
 

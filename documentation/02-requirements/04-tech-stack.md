@@ -105,7 +105,7 @@ This document catalogs the complete technology stack used in PLACEHOLDER-PROJECT
 |:---|:---|:---|
 | **Jupyter Notebooks** | Model training environment | Interactive development for data exploration, model training, and visualization; notebooks for Nail, Tongue, and Skin models |
 | **Google Colab / Kaggle Notebooks** | Cloud compute | Free GPU/TPU access for model training; eliminates local GPU requirements |
-| **Data Augmentation** (TF/Keras built-in) | Training data expansion | Rotations, horizontal flipping, zoom transformations to prevent overfitting and improve generalization |
+| **Data Augmentation** (TF/Keras built-in) | Training data expansion | Augmentation including rotations, flipping, and zooming to prevent overfitting and improve generalization across diverse images (as documented in project README) |
 | **Adam Optimizer** | Weight optimization | Adaptive learning rate optimizer; standard choice for CNN training |
 | **Categorical Cross-Entropy** | Loss function | Standard loss for multi-class classification with softmax outputs |
 
