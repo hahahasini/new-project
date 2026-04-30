@@ -1,20 +1,10 @@
 @startuml architecture
 ' ================================================================
-' PLACEHOLDER-PROJECT-NAME — System Architecture Diagram
-' Vitamin Deficiency Detection System
+' Vitamin Deficiency Detection System — System Architecture Diagram
 ' ================================================================
 
-skinparam backgroundColor #1a1a2e
-skinparam defaultFontColor #e0e0e0
-skinparam componentBackgroundColor #16213e
-skinparam componentBorderColor #0f3460
-skinparam packageBackgroundColor #0f3460
-skinparam packageBorderColor #533483
-skinparam arrowColor #e94560
-skinparam noteBorderColor #533483
-skinparam noteBackgroundColor #16213e
 
-title PLACEHOLDER-PROJECT-NAME — System Architecture
+title Vitamin Deficiency Detection System — System Architecture
 
 package "Frontend (React 18 + Vite 5)" as FE {
     [React Router DOM] as Router

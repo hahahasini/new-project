@@ -1,20 +1,10 @@
 @startuml deployment
 ' ================================================================
-' PLACEHOLDER-PROJECT-NAME — Deployment Diagram
+' Vitamin Deficiency Detection System — Deployment Diagram
 ' Local Development & Production Deployment Topology
 ' ================================================================
 
-skinparam backgroundColor #1a1a2e
-skinparam defaultFontColor #e0e0e0
-skinparam nodeBorderColor #0f3460
-skinparam nodeBackgroundColor #16213e
-skinparam componentBackgroundColor #0f3460
-skinparam componentBorderColor #533483
-skinparam arrowColor #e94560
-skinparam noteBorderColor #533483
-skinparam noteBackgroundColor #16213e
-
-title PLACEHOLDER-PROJECT-NAME — Deployment Architecture
+title Vitamin Deficiency Detection System — Deployment Architecture
 
 node "User Device\n(Browser)" as CLIENT {
     component "Chrome / Firefox /\nSafari / Edge" as BROWSER

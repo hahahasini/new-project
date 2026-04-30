@@ -1,18 +1,11 @@
 @startuml data-model
 ' ================================================================
-' PLACEHOLDER-PROJECT-NAME — Data Model Diagram
+' Vitamin Deficiency Detection System — Data Model Diagram
 ' Configuration-Driven Domain Data Architecture
 ' ================================================================
 
-skinparam backgroundColor #1a1a2e
-skinparam defaultFontColor #e0e0e0
-skinparam classBorderColor #0f3460
-skinparam classBackgroundColor #16213e
-skinparam arrowColor #e94560
-skinparam packageBorderColor #533483
-skinparam packageBackgroundColor #0f3460
 
-title PLACEHOLDER-PROJECT-NAME — Data Model / Schema Diagram
+title Vitamin Deficiency Detection System — Data Model / Schema Diagram
 
 package "Backend Configuration Data (config.py)" {
     

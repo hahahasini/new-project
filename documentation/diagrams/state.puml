@@ -1,17 +1,10 @@
 @startuml state
 ' ================================================================
-' PLACEHOLDER-PROJECT-NAME — State Diagram
+' Vitamin Deficiency Detection System — State Diagram
 ' User Session & Analysis Processing States
 ' ================================================================
 
-skinparam backgroundColor #1a1a2e
-skinparam defaultFontColor #e0e0e0
-skinparam stateBorderColor #0f3460
-skinparam stateBackgroundColor #16213e
-skinparam arrowColor #e94560
-skinparam noteBorderColor #533483
-
-title PLACEHOLDER-PROJECT-NAME — State Machine Diagram
+title Vitamin Deficiency Detection System — State Machine Diagram
 
 [*] --> HomePage : Application Load
 

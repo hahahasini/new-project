@@ -1,17 +1,9 @@
 @startuml usecase
 ' ================================================================
-' PLACEHOLDER-PROJECT-NAME — Use Case Diagram
-' Vitamin Deficiency Detection System
+' Vitamin Deficiency Detection System — Use Case Diagram
 ' ================================================================
 
-skinparam backgroundColor #1a1a2e
-skinparam defaultFontColor #e0e0e0
-skinparam usecaseBackgroundColor #16213e
-skinparam usecaseBorderColor #0f3460
-skinparam actorBorderColor #e94560
-skinparam packageBorderColor #533483
-
-title PLACEHOLDER-PROJECT-NAME — Use Case Diagram
+title Vitamin Deficiency Detection System — Use Case Diagram
 
 left to right direction
 
@@ -20,7 +12,7 @@ actor "System\n(Automated)" as System
 actor "Overpass API\n(External)" as Overpass
 actor "Browser\nGeolocation" as Geo
 
-rectangle "PLACEHOLDER-PROJECT-NAME System Boundary" {
+rectangle "Vitamin Deficiency Detection System Boundary" {
     usecase "UC1: Select Body Part\n(Nail/Tongue/Skin)" as UC1
     usecase "UC2: Upload Image\n(Drag & Drop / Browse)" as UC2
     usecase "UC3: Preview Image" as UC3

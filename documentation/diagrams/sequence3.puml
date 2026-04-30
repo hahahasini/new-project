@@ -1,17 +1,8 @@
 @startuml sequence3
 ' ================================================================
-' PLACEHOLDER-PROJECT-NAME — Sequence Diagram 3
+' Vitamin Deficiency Detection System — Sequence Diagram 3
 ' Nearby Doctors Location Search Workflow
 ' ================================================================
-
-skinparam backgroundColor #1a1a2e
-skinparam sequenceParticipantBackgroundColor #16213e
-skinparam sequenceParticipantBorderColor #0f3460
-skinparam sequenceArrowColor #e94560
-skinparam sequenceLifeLineBorderColor #533483
-skinparam noteBorderColor #533483
-skinparam noteBackgroundColor #16213e
-skinparam defaultFontColor #e0e0e0
 
 title Sequence Diagram 3 — Nearby Doctors Search
 
